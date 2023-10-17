@@ -3,13 +3,22 @@ create database yoga_studio;
 use yoga_studio;
 
 
-create table user (
+create table users (
 
 user_id int primary key auto_increment,
 first_name varchar(25) not null,
 last_name varchar(25) not null,
+dob date not null,
 phone_number varchar(25) not null,
-email_address varchar(512) not null unique
+email_address varchar(512) not null unique,
+`type` varchar(50) not null
+);
+
+create table location (
+
+location_id int primary key auto_increment,
+`name` varchar(50) not null,
+description varchar(1000) null
 );
 
 create table `session` (
