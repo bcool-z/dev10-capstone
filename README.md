@@ -1,8 +1,12 @@
 # Project proposal - Yoga
 
+## User Story
 
+- As a casual user, I want to view information about the yoga studio, courses offered, maybe the instructors
+- As an authenticated user, I want to be able to sign up for yoga classes by time slot 
+- As an admin, I want to create active time slots and assign instructors, and enjoy the ability to add/drop students at will.
 
-### MongoDB
+### MongoDB (Delayed)
 - [] user/admin
 - [] reservation/session/time-slot
 - [] customer/instructor
@@ -18,11 +22,18 @@
 - [] User-story: view time slots with availability info
 - [] Admin-story: set-up classes, assign instructor, special add/remove-student privileges 
 
-## User Story
+### functions
+- [] full CRUD for reservations
+- [] full CRUD for users
+- [] 
+- []
+- []
+- []
+- []
+- []
+- []
 
-- As a casual user, I want to view information about the yoga studio, courses offered, maybe the instructors
-- As an authenticated user, I want to be able to sign up for yoga classes by time slot 
-- As an admin, I want to create active time slots and assign instructors, and enjoy the ability to add/drop students at will.
+
 
 
 

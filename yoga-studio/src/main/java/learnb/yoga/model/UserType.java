@@ -1,4 +1,4 @@
-package learnb.model;
+package learnb.yoga.model;
 
 import java.util.Arrays;
 import java.util.List;
