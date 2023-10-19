@@ -14,8 +14,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 
-import static learnb.yoga.data.TestHelper.makeLocation;
-import static learnb.yoga.data.TestHelper.makeUser;
+import static learnb.yoga.data.TestHelper.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
@@ -34,18 +33,10 @@ class SessionJdbcTemplateRepositoryTest {
     @Test
     void findById() {
 
-        AppUser instructor = makeUser(4);
-        Location location = makeLocation(3);
 
-        Session expected = new Session();
 
-        expected.setId(3);
-        expected.setStart(LocalDateTime.of(2024,02,23,10,00));
-        expected.setEnd(LocalDateTime.of(2024,02,23,11,00));
-        expected.setCapacity(12);
-        expected.setInstructor(instructor);
-        expected.setLocation(location);
-
+        Session expected = SESSION_THREE;
+        //
         Session actual = repository.findById(3);
 
         assertEquals(expected,actual);
@@ -68,4 +59,24 @@ class SessionJdbcTemplateRepositoryTest {
         AppUser instructor4 = makeUser(4);
         assertEquals(1,repository.findByInstructor(instructor4).size());
     }
+
+    @Test
+    void updateAndFindByLocation() {
+
+        Location location1 = makeLocation(1);
+
+        List actual = repository.findByLocation(location1);
+        assertEquals(1,actual.size());
+
+        Session expected = SESSION_THREE;
+
+        expected.setLocation(location1);
+
+        assertTrue(repository.update(expected));
+
+        actual = repository.findByLocation(location1);
+        assertEquals(2,actual.size());
+
+    }
+
 }

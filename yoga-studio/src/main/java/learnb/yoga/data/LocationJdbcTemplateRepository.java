@@ -96,7 +96,7 @@ private final JdbcTemplate jdbcTemplate;
     @Override
     public Boolean deleteById(int id) {
 
-        final String sql = "delete from location where location id = ?";
+        final String sql = "delete from location where location_id = ?";
         return jdbcTemplate.update(sql,id) > 0;
     }
 

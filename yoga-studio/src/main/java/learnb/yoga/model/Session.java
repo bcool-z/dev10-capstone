@@ -17,8 +17,16 @@ public class Session {
 
     private Location location;
 
+    public Session(){}
 
-
+    public Session(int id, LocalDateTime start, LocalDateTime end, int capacity, AppUser instructor, Location location) {
+        this.id = id;
+        this.start = start;
+        this.end = end;
+        this.capacity = capacity;
+        this.instructor = instructor;
+        this.location = location;
+    }
 
     public int getId() {
         return id;

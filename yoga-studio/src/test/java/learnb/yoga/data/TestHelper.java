@@ -1,11 +1,9 @@
 package learnb.yoga.data;
 
-import learnb.yoga.model.AppUser;
-import learnb.yoga.model.Location;
-import learnb.yoga.model.Size;
-import learnb.yoga.model.UserType;
+import learnb.yoga.model.*;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 public class TestHelper {
 
@@ -15,7 +13,7 @@ public class TestHelper {
         appUser.setUserId(index);
         appUser.setFirstName("FirstName"+index);
         appUser.setLastName("LastName"+index);
-        appUser.setDob(LocalDate.of(1990+index,00+index,00+index));
+        appUser.setDob(LocalDate.of(1990+index, index, index));
         appUser.setPhoneNumber("555-555-555"+index);
         appUser.setEmailAddress("fn.ln"+index+"@email.com");
         if(index%2==0) appUser.setUserType(UserType.INSTRUCTOR);
@@ -39,4 +37,15 @@ public class TestHelper {
         return location;
     }
 
+    public static final Session SESSION_ONE = new Session(1, LocalDateTime.of(3024, 2,22,13, 0, 0),
+            LocalDateTime.of(3024, 2,22,14, 0, 0),
+            3,makeUser(2),makeLocation(1));
+
+    public static final Session SESSION_TWO = new Session(2, LocalDateTime.of(3024, 2,22,14, 0, 0),
+            LocalDateTime.of(3024, 2,22,15, 0, 0),
+            10,makeUser(2),makeLocation(2));
+
+    public static final Session SESSION_THREE = new Session(3, LocalDateTime.of(3024, 2,23,10, 0, 0),
+            LocalDateTime.of(3024, 2,23,11, 0, 0),
+            12,makeUser(4),makeLocation(3));
 }
