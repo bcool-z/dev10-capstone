@@ -39,9 +39,28 @@ constraint fk_session_location_id
 	references location (location_id)
 );
 
+create table reservation
+(
+reservation_id int primary key auto_increment,
+
+session_id int not null,
+student_id int not null,
+
+constraint fk_reservation_session_id
+		foreign key (session_id)
+        references `session`(session_id),
+constraint fk_reservation_guest_id        
+		foreign key (student_id)
+        references app_user(app_user_id)
+
+);
+
 delimiter //
 create procedure set_known_good_state()
 begin
+
+	delete from reservation;
+    alter table reservation auto_increment =1;
 
 	delete from `session`; 
     alter table `session` auto_increment = 1;
@@ -76,9 +95,15 @@ values
 
 insert into `session` (start_time, end_time, capacity, instructor_id, location_id)
 values
-('3024-02-22 13:00:00','3024-02-22 14:00:00',8,2,1),
+('3024-02-22 13:00:00','3024-02-22 14:00:00',3,2,1),
 ('3024-02-22 14:00:00','3024-02-22 15:00:00',10,2,2),
 ('3024-02-23 10:00:00','3024-02-23 11:00:00',12,4,3);
+
+insert into reservation (session_id, student_id)
+values 
+(1,1),
+(1,3),
+(1,5);
  
 end //
 
