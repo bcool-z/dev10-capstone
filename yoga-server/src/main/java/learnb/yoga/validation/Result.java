@@ -1,4 +1,6 @@
-package learnb.yoga.domain;
+package learnb.yoga.validation;
+
+import learnb.yoga.domain.ActionStatus;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,8 +1,8 @@
 package learnb.yoga.data.mappers;
 
-import learnb.yoga.model.AppUser;
-import learnb.yoga.model.Location;
-import learnb.yoga.model.Session;
+import learnb.yoga.models.AppUser;
+import learnb.yoga.models.Location;
+import learnb.yoga.models.Session;
 import org.springframework.jdbc.core.RowMapper;
 
 import java.sql.ResultSet;

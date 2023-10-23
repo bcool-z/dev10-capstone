@@ -77,8 +77,9 @@ VALUES
 ('FirstName2', 'LastName2', '1992-02-02', '555-555-5552', 'fn.ln2@email.com', 'INSTRUCTOR','12345'),
 ('FirstName3', 'LastName3', '1993-03-03', '555-555-5553', 'fn.ln3@email.com', 'STUDENT','12345'),
 ('FirstName4', 'LastName4', '1994-04-04', '555-555-5554', 'fn.ln4@email.com', 'INSTRUCTOR','12345'),
-('FirstName5', 'LastName5', '1995-05-05', '555-555-5555', 'fn.ln5@email.com', 'STUDENT','12345');
-
+('FirstName5', 'LastName5', '1995-05-05', '555-555-5555', 'fn.ln5@email.com', 'STUDENT','12345'),
+('FirstName6', 'LastName6', '1996-06-06', '555-555-5556', 'fn.ln6@email.com', 'INSTRUCTOR','12345'),
+('FirstName7', 'LastName7', '1997-07-07', '555-555-5557', 'fn.ln7@email.com', 'STUDENT','12345'),
 
 
 insert into location (`name`, size, `description`)

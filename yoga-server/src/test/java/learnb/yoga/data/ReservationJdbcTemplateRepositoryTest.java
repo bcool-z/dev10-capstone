@@ -1,6 +1,6 @@
 package learnb.yoga.data;
 
-import learnb.yoga.model.Reservation;
+import learnb.yoga.models.Reservation;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

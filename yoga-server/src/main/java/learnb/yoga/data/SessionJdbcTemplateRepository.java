@@ -1,9 +1,9 @@
 package learnb.yoga.data;
 
 import learnb.yoga.data.mappers.SessionMapper;
-import learnb.yoga.model.AppUser;
-import learnb.yoga.model.Location;
-import learnb.yoga.model.Session;
+import learnb.yoga.models.AppUser;
+import learnb.yoga.models.Location;
+import learnb.yoga.models.Session;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
@@ -13,7 +13,7 @@ import java.util.HashMap;
 import java.util.List;
 
 @Repository
-public class SessionJdbcTemplateRepository {
+public class SessionJdbcTemplateRepository implements SessionRepository {
 
     private final JdbcTemplate jdbcTemplate;
 
@@ -32,6 +32,7 @@ public class SessionJdbcTemplateRepository {
                 inner join location l on s.location_id = l.location_id
 """;
 
+@Override
 public Session findById(int id) {
 
         final String sql = SELECT + """
@@ -42,6 +43,7 @@ public Session findById(int id) {
 
 }
 
+@Override
 public List<Session> findByDate(LocalDate date) {
 
     final String sql = SELECT + """
@@ -52,6 +54,7 @@ public List<Session> findByDate(LocalDate date) {
 
 }
 
+@Override
 public List<Session> findByInstructor(AppUser instructor){
 
     final String sql = SELECT + """
@@ -60,10 +63,11 @@ public List<Session> findByInstructor(AppUser instructor){
             
             """;
 
-    return jdbcTemplate.query(sql,new SessionMapper(), instructor.getUserId());
+    return jdbcTemplate.query(sql,new SessionMapper(), instructor.getAppUserId());
 
 }
 
+@Override
 public List<Session> findByLocation(Location location){
 
     final String sql = SELECT + """
@@ -75,6 +79,7 @@ public List<Session> findByLocation(Location location){
 
 }
 
+@Override
 public Session add(Session session){
 
     // SimpleJdbcInsert
@@ -87,7 +92,7 @@ public Session add(Session session){
     args.put("start_time",session.getStart());
     args.put("end_time",session.getEnd());
     args.put("capacity",session.getCapacity());
-    args.put("instructor_id",session.getInstructor().getUserId());
+    args.put("instructor_id",session.getInstructor().getAppUserId());
     args.put("location_id",session.getLocation().getId());
 
     int id = insert.executeAndReturnKey(args).intValue();
@@ -96,6 +101,7 @@ public Session add(Session session){
     return session;
 }
 
+@Override
 public boolean update(Session session){
 
     final String sql = """
@@ -112,12 +118,13 @@ public boolean update(Session session){
             session.getStart(),
             session.getEnd(),
             session.getCapacity(),
-            session.getInstructor().getUserId(),
+            session.getInstructor().getAppUserId(),
             session.getLocation().getId(),
             session.getId())>0;
 
 }
 
+@Override
 public boolean deleteById(int id){
 
     final String sql = """

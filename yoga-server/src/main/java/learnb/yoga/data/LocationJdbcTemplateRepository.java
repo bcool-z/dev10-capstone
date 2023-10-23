@@ -1,8 +1,8 @@
 package learnb.yoga.data;
 
 import learnb.yoga.data.mappers.LocationMapper;
-import learnb.yoga.model.Location;
-import learnb.yoga.model.Size;
+import learnb.yoga.models.Location;
+import learnb.yoga.models.Size;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
@@ -94,7 +94,7 @@ private final JdbcTemplate jdbcTemplate;
     }
 
     @Override
-    public Boolean deleteById(int id) {
+    public boolean deleteById(int id) {
 
         final String sql = "delete from location where location_id = ?";
         return jdbcTemplate.update(sql,id) > 0;

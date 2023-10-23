@@ -1,8 +1,6 @@
 package learnb.yoga.data;
 
-import learnb.yoga.model.AppUser;
-
-import java.util.List;
+import learnb.yoga.models.AppUser;
 
 public interface AppUserRepository {
     AppUser findById(int id);

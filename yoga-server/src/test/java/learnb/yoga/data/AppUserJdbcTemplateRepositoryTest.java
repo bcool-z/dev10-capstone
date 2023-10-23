@@ -1,6 +1,6 @@
 package learnb.yoga.data;
 
-import learnb.yoga.model.AppUser;
+import learnb.yoga.models.AppUser;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,15 +43,21 @@ assertEquals(expected,actual);
 //    void findByName() {
 //    }
 //
-//    @Test
-//    void shouldAdd() {
-//
-//        AppUser appUser = makeUser(6);
-//        appUser.setUserId(0);
-//        repository.add(appUser);
-//
-//
-//    }
+    @Test
+    void shouldAdd() {
+
+        assertNull(repository.findById(8));
+
+        AppUser appUser = makeUser(8);
+        appUser.setAppUserId(0);
+        repository.add(appUser);
+
+        assertEquals(makeUser(8), repository.findById(8));
+
+
+
+
+    }
 //
 //    @Test
 //    void update() {

@@ -1,9 +1,8 @@
 package learnb.yoga.data;
 
-import learnb.yoga.App;
-import learnb.yoga.model.AppUser;
-import learnb.yoga.model.Location;
-import learnb.yoga.model.Session;
+import learnb.yoga.models.AppUser;
+import learnb.yoga.models.Location;
+import learnb.yoga.models.Session;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +10,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.jdbc.core.JdbcTemplate;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.List;
 
 import static learnb.yoga.data.TestHelper.*;
@@ -45,7 +43,7 @@ class SessionJdbcTemplateRepositoryTest {
     @Test
     void findByDate() {
 
-        List<Session> actual = repository.findByDate(LocalDate.of(2024,02,22));
+        List<Session> actual = repository.findByDate(LocalDate.of(3024,02,22));
 
         assertEquals(2,actual.size());
 
@@ -76,6 +74,15 @@ class SessionJdbcTemplateRepositoryTest {
 
         actual = repository.findByLocation(location1);
         assertEquals(2,actual.size());
+
+    }
+
+    @Test
+    public void shouldDeleteAndFindByLocation() {
+
+        assertEquals(1,repository.findByLocation(makeLocation(3)).size());
+        assertTrue(repository.deleteById(3));
+        assertEquals(0,repository.findByLocation(makeLocation(3)).size());
 
     }
 

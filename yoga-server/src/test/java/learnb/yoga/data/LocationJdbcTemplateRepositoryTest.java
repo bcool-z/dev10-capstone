@@ -1,7 +1,7 @@
 package learnb.yoga.data;
 
-import learnb.yoga.model.Location;
-import learnb.yoga.model.Size;
+import learnb.yoga.models.Location;
+import learnb.yoga.models.Size;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -57,9 +57,9 @@ class LocationJdbcTemplateRepositoryTest {
     @Test
     void findBySize() {
         List<Location> actualSMALL = repository.findBySize(Size.SMALL);
-        assertEquals(actualSMALL.size(),3);
+        assertEquals(3,actualSMALL.size());
         List<Location> actualLARGE = repository.findBySize(Size.LARGE);
-        assertEquals(actualLARGE,2);
+        assertEquals(2,actualLARGE.size());
 
 
     }
@@ -95,6 +95,23 @@ class LocationJdbcTemplateRepositoryTest {
     assertTrue(repository.update(location));
 
     assertEquals(location, repository.findById(7));
+
+    }
+
+    @Test
+    void shouldDelete() {
+
+        assertEquals(7,repository.findAll().size());
+        assertTrue(repository.deleteById(4));
+        assertEquals(6,repository.findAll().size());
+
+    }
+
+    @Test void shoudNotDelete() {
+
+        assertEquals(7,repository.findAll().size());
+        assertFalse(repository.deleteById(12));
+        assertEquals(7,repository.findAll().size());
 
     }
 }

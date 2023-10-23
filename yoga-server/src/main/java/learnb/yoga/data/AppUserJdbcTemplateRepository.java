@@ -1,7 +1,7 @@
 package learnb.yoga.data;
 
 import learnb.yoga.data.mappers.AppUserMapper;
-import learnb.yoga.model.AppUser;
+import learnb.yoga.models.AppUser;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.stereotype.Repository;
@@ -26,7 +26,7 @@ public AppUser findById(int id) {
 
         final String sql = """
                 select app_user_id, first_name, last_name, dob, phone_number,
-                email_address, user_type from app_user where app_user_id = ?;
+                email_address, user_type, password_hash from app_user where app_user_id = ?;
                 """;
 
 
@@ -66,8 +66,8 @@ public AppUser add(AppUser appUser){
 
     final String sql = """ 
          insert into app_user
-         (first_name, last_name, dob, phone_number, email_address, user_type)
-         values (?,?,?,?,?,?)
+         (first_name, last_name, dob, phone_number, email_address, user_type,password_hash)
+         values (?,?,?,?,?,?,?)
 """;
 
     GeneratedKeyHolder keyHolder = new GeneratedKeyHolder();
@@ -79,13 +79,14 @@ public AppUser add(AppUser appUser){
         ps.setString(4, appUser.getPhoneNumber());
         ps.setString(5, appUser.getEmailAddress());
         ps.setString(6, appUser.getUserType().getLabel());
+        ps.setString(7,appUser.getPassword());
         return ps;
     },keyHolder);
 
     if (rowsAffected <= 0) {
         return null;
     }
-    appUser.setUserId(keyHolder.getKey().intValue());
+    appUser.setAppUserId(keyHolder.getKey().intValue());
     return appUser;
 }
 
@@ -110,7 +111,7 @@ public boolean update(AppUser appUser) {
             appUser.getPhoneNumber(),
             appUser.getEmailAddress(),
             appUser.getUserType(),
-            appUser.getUserId()) > 0;
+            appUser.getAppUserId()) > 0;
 }
 
 @Override

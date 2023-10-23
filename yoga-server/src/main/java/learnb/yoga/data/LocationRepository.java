@@ -1,7 +1,7 @@
 package learnb.yoga.data;
 
-import learnb.yoga.model.Location;
-import learnb.yoga.model.Size;
+import learnb.yoga.models.Location;
+import learnb.yoga.models.Size;
 
 import java.util.List;
 
@@ -16,5 +16,5 @@ public interface LocationRepository {
 
     boolean update(Location location);
 
-    Boolean deleteById(int id);
+    boolean deleteById(int id);
 }

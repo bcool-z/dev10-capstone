@@ -1,4 +1,4 @@
-package learnb.yoga.model;
+package learnb.yoga.models;
 
 public enum Size {
 

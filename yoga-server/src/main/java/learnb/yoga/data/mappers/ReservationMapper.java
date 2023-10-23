@@ -1,6 +1,6 @@
 package learnb.yoga.data.mappers;
 
-import learnb.yoga.model.*;
+import learnb.yoga.models.*;
 import org.springframework.jdbc.core.RowMapper;
 
 import java.sql.ResultSet;
@@ -36,13 +36,14 @@ public class ReservationMapper implements RowMapper<Reservation> {
 
 
         AppUser student = new AppUser();
-        student.setUserId(resultSet.getInt("student_user_id"));
+        student.setAppUserId(resultSet.getInt("student_user_id"));
         student.setFirstName(resultSet.getString("student_first_name"));
         student.setLastName(resultSet.getString("student_last_name"));
         student.setDob(resultSet.getDate("student_dob").toLocalDate());
         student.setPhoneNumber(resultSet.getString("student_phone_number"));
         student.setEmailAddress(resultSet.getString("student_email_address"));
         student.setUserType(UserType.valueOf(resultSet.getString("student_user_type")));
+        student.setPassword("0");
 
         reservation.setSession(session);
         reservation.setStudent(student);

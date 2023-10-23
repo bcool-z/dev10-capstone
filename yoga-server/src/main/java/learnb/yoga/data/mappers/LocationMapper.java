@@ -1,7 +1,7 @@
 package learnb.yoga.data.mappers;
 
-import learnb.yoga.model.Location;
-import learnb.yoga.model.Size;
+import learnb.yoga.models.Location;
+import learnb.yoga.models.Size;
 import org.springframework.jdbc.core.RowMapper;
 
 import java.sql.ResultSet;

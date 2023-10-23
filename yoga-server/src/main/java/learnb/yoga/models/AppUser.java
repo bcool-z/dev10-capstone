@@ -1,4 +1,4 @@
-package learnb.yoga.model;
+package learnb.yoga.models;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -11,7 +11,7 @@ import java.util.Objects;
 
 public class AppUser implements UserDetails {
 
-    private int userId;
+    private int appUserId;
 
     private String emailAddress;
     private String firstName;
@@ -43,12 +43,12 @@ public class AppUser implements UserDetails {
 
 
 
-    public int getUserId() {
-        return userId;
+    public int getAppUserId() {
+        return appUserId;
     }
 
-    public void setUserId(int userId) {
-        this.userId = userId;
+    public void setAppUserId(int appUserId) {
+        this.appUserId = appUserId;
     }
 
     public String getEmailAddress() {
@@ -137,11 +137,11 @@ public class AppUser implements UserDetails {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         AppUser appUser = (AppUser) o;
-        return userId == appUser.userId && Objects.equals(emailAddress, appUser.emailAddress) && Objects.equals(firstName, appUser.firstName) && Objects.equals(lastName, appUser.lastName) && Objects.equals(dob, appUser.dob) && Objects.equals(phoneNumber, appUser.phoneNumber) && userType == appUser.userType && Objects.equals(password, appUser.password) && Objects.equals(authorities, appUser.authorities);
+        return appUserId == appUser.appUserId && Objects.equals(emailAddress, appUser.emailAddress) && Objects.equals(firstName, appUser.firstName) && Objects.equals(lastName, appUser.lastName) && Objects.equals(dob, appUser.dob) && Objects.equals(phoneNumber, appUser.phoneNumber) && userType == appUser.userType && Objects.equals(password, appUser.password) && Objects.equals(authorities, appUser.authorities);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(userId, emailAddress, firstName, lastName, dob, phoneNumber, userType, password, authorities);
+        return Objects.hash(appUserId, emailAddress, firstName, lastName, dob, phoneNumber, userType, password, authorities);
     }
 }

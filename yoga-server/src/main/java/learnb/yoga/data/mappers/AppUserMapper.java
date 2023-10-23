@@ -1,7 +1,7 @@
 package learnb.yoga.data.mappers;
 
-import learnb.yoga.model.AppUser;
-import learnb.yoga.model.UserType;
+import learnb.yoga.models.AppUser;
+import learnb.yoga.models.UserType;
 import org.springframework.jdbc.core.RowMapper;
 
 import java.sql.ResultSet;
@@ -14,13 +14,14 @@ public class AppUserMapper implements RowMapper<AppUser> {
 
     AppUser appUser = new AppUser();
 
-        appUser.setUserId(resultSet.getInt("app_user_id"));
+        appUser.setAppUserId(resultSet.getInt("app_user_id"));
         appUser.setFirstName(resultSet.getString("first_name"));
         appUser.setLastName(resultSet.getString("last_name"));
         appUser.setDob(resultSet.getDate("dob").toLocalDate());
         appUser.setPhoneNumber(resultSet.getString("phone_number"));
         appUser.setEmailAddress(resultSet.getString("email_address"));
         appUser.setUserType(UserType.valueOf(resultSet.getString("user_type")));
+        appUser.setPassword(resultSet.getString("password_hash"));
 
         return appUser;
 

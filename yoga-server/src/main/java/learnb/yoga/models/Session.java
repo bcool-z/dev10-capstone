@@ -1,4 +1,4 @@
-package learnb.yoga.model;
+package learnb.yoga.models;
 
 import java.time.LocalDateTime;
 import java.util.Objects;
