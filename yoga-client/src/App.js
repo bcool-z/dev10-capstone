@@ -9,7 +9,7 @@ import LoginForm from "./components/LoginForm";
 import SignUpForm from "./components/SignUpForm"
 
 import { refreshToken, logout } from "./services/authAPI";
-import DateSelector from "./components/DateSelector";
+import Schedule from "./components/Schedule";
 
 const TIMEOUT_MILLISECONDS = 14 * 60 * 1000;
 
@@ -74,7 +74,7 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/login" element={<LoginForm />} />
           <Route path="/signup" element={<SignUpForm />} />
-          <Route path="/DateSelector" element={<DateSelector />} />
+          <Route path="/schedule" element={<Schedule />} />
         </Routes>
         </Router>
 

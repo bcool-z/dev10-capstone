@@ -35,6 +35,22 @@
 
 
 
+('Location1','SMALL','Description1')
+('Location2','MEDIUM','Description2')
+('Location3','LARGE','Description3')
+('Location4','SMALL','Description4')
+('Location5','MEDIUM','Description5')
+('Location6','LARGE','Description6')
+('Location7','SMALL','Description7')
+('Location8','MEDIUM','Description8')
+('Location9','LARGE','Description9')
+('Location10','SMALL','Description10')
+
+
+
+
+
+
 
 
 

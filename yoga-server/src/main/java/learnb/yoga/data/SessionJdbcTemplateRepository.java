@@ -24,7 +24,7 @@ public class SessionJdbcTemplateRepository implements SessionRepository {
     private String SELECT = """
             select s.session_id, s.start_time, s.end_time, s.capacity,
                 a.app_user_id, a.first_name, a.last_name, a.dob, a.phone_number, 
-                a.email_address, a.user_type, l.location_id, l.name, l.size, 
+                a.email_address, a.user_type, a.password_hash, l.location_id, l.name, l.size, 
                 l.description
                 from
                 session s
@@ -41,6 +41,18 @@ public Session findById(int id) {
 
         return jdbcTemplate.query(sql, new SessionMapper(), id).stream().findFirst().orElse(null);
 
+}
+
+@Override
+public int getEnrollmentCount(int sessionId){
+
+    final String sql = """
+            select count(reservation_id)
+            from reservation 
+            where session_id = ?
+            """;
+
+    return jdbcTemplate.queryForObject(sql, Integer.class, sessionId);
 }
 
 @Override

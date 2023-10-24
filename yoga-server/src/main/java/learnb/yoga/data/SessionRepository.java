@@ -8,6 +8,8 @@ import java.time.LocalDate;
 import java.util.List;
 
 public interface SessionRepository {
+
+    int getEnrollmentCount(int sessionId);
     Session findById(int id);
 
     List<Session> findByDate(LocalDate date);

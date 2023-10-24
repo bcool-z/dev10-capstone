@@ -3,6 +3,7 @@ package learnb.yoga.security;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
 import learnb.yoga.models.AppUser;
+import learnb.yoga.models.UserType;
 import org.springframework.stereotype.Component;
 
 import java.security.Key;
@@ -26,6 +27,7 @@ public class JwtConverter {
                 .setIssuer(ISSUER)
                 .setSubject(user.getUsername())
                 .claim("appUserId", user.getEmailAddress())
+                .claim("userType",user.getUserType())
                 .claim("authorities", authorities)
                 .setExpiration(new Date(System.currentTimeMillis() + EXPIRATION_MILLISECONDS))
                 .signWith(key)
@@ -47,12 +49,12 @@ public class JwtConverter {
 
             String username = jws.getBody().getSubject();
             int appUserId = jws.getBody().get("appUserId", Integer.class);
-            List<String> authorities = jws.getBody().get("authorities", List.class);
+           UserType userType = jws.getBody().get("userType", UserType.class);
 
             AppUser user = new AppUser();
             user.setEmailAddress(username);
             user.setAppUserId(appUserId);
-            user.setAuthorities(authorities);
+            user.setUserType(userType);
             return user;
 
         } catch (JwtException ex) {

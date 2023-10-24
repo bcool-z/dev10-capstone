@@ -31,8 +31,8 @@ return(
               </NavLink>
             </li>
             <li className="nav-item">
-              <NavLink className="nav-link" to="/DateSelector">
-                Date Selector
+              <NavLink className="nav-link" to="/schedule">
+                Schedule
               </NavLink>
             </li>
             {user && (

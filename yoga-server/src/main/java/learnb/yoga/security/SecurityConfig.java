@@ -28,10 +28,10 @@ public class SecurityConfig {
         http.authorizeHttpRequests(authorize -> authorize
                 .requestMatchers(HttpMethod.POST, "/authenticate").permitAll()
                 .requestMatchers(HttpMethod.POST, "/refresh").authenticated()
-                .requestMatchers(HttpMethod.GET, "/api/**").permitAll()
-                .requestMatchers(HttpMethod.POST, "/api/**").hasAnyAuthority("USER", "ADMIN")
-                .requestMatchers(HttpMethod.PUT, "/api/**").hasAnyAuthority("USER", "ADMIN")
-                .requestMatchers(HttpMethod.DELETE, "/api/**").hasAuthority("ADMIN")
+                .requestMatchers(HttpMethod.GET, "/**").permitAll()
+                .requestMatchers(HttpMethod.POST, "/**").hasAnyAuthority("USER", "ADMIN")
+                .requestMatchers(HttpMethod.PUT, "/**").hasAnyAuthority("USER", "ADMIN")
+                .requestMatchers(HttpMethod.DELETE, "/**").hasAuthority("ADMIN")
         );
 
         http.addFilter(new JwtRequestFilter(manager(config), converter));

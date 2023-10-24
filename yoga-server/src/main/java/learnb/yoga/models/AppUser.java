@@ -31,15 +31,7 @@ public class AppUser implements UserDetails {
         return authorities;
     }
 
-    public void setAuthorities(Collection<String> authorities) {
-        this.authorities.clear();
-        if (authorities == null || authorities.size() == 0) {
-            return;
-        }
-        this.authorities.addAll(authorities.stream()
-                .map(a -> new SimpleGrantedAuthority(a))
-                .toList());
-    }
+
 
 
 
@@ -97,12 +89,18 @@ public class AppUser implements UserDetails {
 
     public void setUserType(UserType userType) {
         this.userType = userType;
+        this.authorities.clear();
+        this.authorities.add(new SimpleGrantedAuthority(userType.toString()));
     }
 
 
     @Override
     public String getUsername() {return emailAddress;}
 
+    public void setUsername(String username){
+
+        this.emailAddress = username;
+    }
     @Override
     public String getPassword() {
         return password;

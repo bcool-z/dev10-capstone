@@ -6,6 +6,7 @@ import learnb.yoga.models.Session;
 import learnb.yoga.validation.Result;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -20,8 +21,14 @@ private final SessionRepository repository;
         this.repository = repository;
     }
 
+    public int getEnrolled(int sessionId){return repository.getEnrollmentCount(sessionId);}
 public Session findById(int id){
         return repository.findById(id);
+}
+
+public List<Session> findByDate(LocalDate date){
+
+        return repository.findByDate(date);
 }
 
 public Result<Session> add(Session session){

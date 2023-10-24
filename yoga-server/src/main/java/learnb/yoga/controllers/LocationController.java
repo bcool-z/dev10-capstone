@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+import static learnb.yoga.controllers.ControllerHelper.getStatus;
+
 @RestController
 @RequestMapping("/location")
 public class LocationController {
@@ -80,16 +82,16 @@ private final LocationService service;
         return new ResponseEntity<>(getStatus(result, HttpStatus.NO_CONTENT));
     }
 
-    private HttpStatus getStatus(Result<?> result, HttpStatus statusDefault) {
-        switch (result.getStatus()) {
-            case INVALID:
-                return HttpStatus.PRECONDITION_FAILED;
-            case DUPLICATE:
-                return HttpStatus.FORBIDDEN;
-            case NOT_FOUND:
-                return HttpStatus.NOT_FOUND;
-        }
-        return statusDefault;
-    }
+//    private HttpStatus getStatus(Result<?> result, HttpStatus statusDefault) {
+//        switch (result.getStatus()) {
+//            case INVALID:
+//                return HttpStatus.PRECONDITION_FAILED;
+//            case DUPLICATE:
+//                return HttpStatus.FORBIDDEN;
+//            case NOT_FOUND:
+//                return HttpStatus.NOT_FOUND;
+//        }
+//        return statusDefault;
+//    }
 
 }

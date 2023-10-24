@@ -1,8 +1,10 @@
 package learnb.yoga.domain;
 
 import learnb.yoga.data.ReservationRepository;
+import learnb.yoga.data.SessionRepository;
 import learnb.yoga.models.AppUser;
 import learnb.yoga.models.Reservation;
+import learnb.yoga.models.Session;
 import learnb.yoga.validation.Result;
 import org.springframework.stereotype.Service;
 
@@ -14,9 +16,13 @@ public class ReservationService {
 
     final ReservationRepository repository;
 
-    public ReservationService(ReservationRepository repository) {
+    final SessionRepository sessionRepository;
+
+    public ReservationService(ReservationRepository repository, SessionRepository sessionRepository) {
         this.repository = repository;
+        this.sessionRepository = sessionRepository;
     }
+
 
     public Reservation findById(int id) {
         return repository.findById(id);
@@ -86,6 +92,11 @@ public class ReservationService {
             return result;
         }
 
+        if(sessionRepository.getEnrollmentCount(reservation.getSession().getId())
+                >= reservation.getSession().getCapacity()){
+            result.addMessage(ActionStatus.INVALID, "Class is full");
+            return result;
+        }
         List<Reservation> studentReservations =
                 repository.findByStudent(reservation.getStudent());
 

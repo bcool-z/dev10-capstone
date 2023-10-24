@@ -1,0 +1,5 @@
+@url = http://localhost:8080
+
+###
+
+GET {{url}}/session/date/2023-10-27 HTTP/1.1

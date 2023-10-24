@@ -3,9 +3,15 @@ package learnb.yoga.controllers;
 import learnb.yoga.domain.SessionService;
 import learnb.yoga.models.Session;
 import learnb.yoga.validation.Result;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.time.LocalDate;
+import java.util.List;
+
+import static learnb.yoga.controllers.ControllerHelper.getStatus;
 
 @RestController
 @RequestMapping("/session")
@@ -17,15 +23,22 @@ public class SessionController {
         this.service = service;
     }
 
+    @GetMapping("/count/{index}")
+    public int getEnrolled(@PathVariable int index) {return service.getEnrolled(index);}
+
     @GetMapping("/{index}")
-    public ResponseEntity<Session> findById(@PathVariable int index){
-Session session = service.findById(index);
-if(session==null){
-    return ResponseEntity.notFound().build();
-}
-return ResponseEntity.ok(session);
+    public ResponseEntity<Session> findById(@PathVariable int index) {
+        Session session = service.findById(index);
+        if (session == null) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(session);
+    }
 
+    @GetMapping("/date/{date}")
+public List<Session> findByDate(@PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date){
 
+        return service.findByDate(date);
     }
 
     @PostMapping
@@ -52,7 +65,7 @@ return ResponseEntity.ok(session);
 
     }
 
-    private HttpStatus getStatus(Result<?> result, HttpStatus statusDefault) {
+   /* private HttpStatus getStatus(Result<?> result, HttpStatus statusDefault) {
         switch (result.getStatus()) {
             case INVALID:
                 return HttpStatus.PRECONDITION_FAILED;
@@ -62,6 +75,6 @@ return ResponseEntity.ok(session);
                 return HttpStatus.NOT_FOUND;
         }
         return statusDefault;
-    }
+    }*/
 
 }

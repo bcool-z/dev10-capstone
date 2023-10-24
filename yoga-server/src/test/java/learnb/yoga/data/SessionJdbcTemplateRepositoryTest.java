@@ -29,6 +29,14 @@ class SessionJdbcTemplateRepositoryTest {
 
 
     @Test
+    void countEnrollments(){
+    int actual = repository.getEnrollmentCount(1);
+    assertEquals(3,actual);
+assertEquals(0,repository.getEnrollmentCount(2));
+
+
+    }
+    @Test
     void findById() {
 
 

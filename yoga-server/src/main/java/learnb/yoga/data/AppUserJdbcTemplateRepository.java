@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.Statement;
+import java.util.List;
 
 @Repository
 public class AppUserJdbcTemplateRepository implements AppUserRepository {
@@ -41,10 +42,12 @@ public AppUser findByEmail(String email_address) {
         final String sql = """
                 
                 select app_user_id, first_name, last_name, dob, phone_number, 
-                email_address, user_type from app_user where email_address = ?;
+                email_address, user_type, password_hash from app_user where email_address = ?;
                 """;
 
-    return jdbcTemplate.query(sql, new AppUserMapper(), email_address).stream().findFirst().orElse(null);
+    AppUser appUser = jdbcTemplate.query(sql, new AppUserMapper(), email_address).stream().findFirst().orElse(null);
+//   appUser.setAuthorities(List.of("USER","ADMIN"));
+    return appUser;
 }
 
 //@Override
