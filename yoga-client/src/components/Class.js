@@ -1,7 +1,10 @@
-import { useEffect,useState } from "react";
+import { useEffect,useState, useContext } from "react";
 import EnrollButton from "./EnrollButton";
+import AuthContext from "../contexts/AuthContext";
 
 export default function Class({cls}){
+
+  const { user } = useContext(AuthContext);
 
 const [enrolled, setEnrolled] = useState(0);
 

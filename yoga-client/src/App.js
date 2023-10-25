@@ -1,5 +1,5 @@
 import { useEffect, useState, useCallback } from "react";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, useNavigate, Navigate } from "react-router-dom";
 import './App.css';
 import AuthContext from "./contexts/AuthContext";
 import NavBar from "./components/NavBar";
@@ -33,6 +33,7 @@ function App() {
   useEffect(() => {
     resetUser();
   }, [resetUser]);
+
 
   const auth = {
     user: user,
@@ -76,7 +77,7 @@ function App() {
           <Route path="/login" element={<LoginForm />} />
           <Route path="/signup" element={<SignUpForm />} />
           <Route path="/schedule" element={<Schedule />} />
-          <Route path="/profile" element={renderWithAuthority(Profile, "STUDENT","INSTRUCTOR")}/>
+          <Route path="/profile" element={<Profile />}/>
         </Routes>
         </Router>
 

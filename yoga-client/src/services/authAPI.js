@@ -71,6 +71,7 @@ export function logout() {
 }
 
 function makeUserFromJwt(jwtToken) {
+  console.log(jwtToken)
   const jwtParts = jwtToken.split('.');
   if (jwtParts.length === 3) {
     const userData = atob(jwtParts[1]);

@@ -21,6 +21,7 @@ function LoginForm() {
     setErrors([]);
     login(credentials)
       .then(user => {
+        console.log(user)
         handleLoggedIn(user);
         navigate("/");
       })

@@ -31,9 +31,17 @@ public class AppUser implements UserDetails {
         return authorities;
     }
 
-
-
-
+public AppUser(){}
+    public AppUser(int appUserId, String emailAddress, String firstName, String lastName, LocalDate dob, String phoneNumber, UserType userType, String password) {
+        this.appUserId = appUserId;
+        this.emailAddress = emailAddress;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.dob = dob;
+        this.phoneNumber = phoneNumber;
+        this.userType = userType;
+        this.password = password;
+    }
 
     public int getAppUserId() {
         return appUserId;
