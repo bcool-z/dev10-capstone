@@ -1,4 +1,4 @@
-const url = process.env.REACT_APP_API_URL;
+const url = process.env.REACT_APP_URL;
 
 export async function login(credentials) {
 

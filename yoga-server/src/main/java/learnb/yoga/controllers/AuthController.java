@@ -28,7 +28,7 @@ public class AuthController {
         this.converter = converter;
     }
 
-    @PostMapping("/authenticate")
+    @PostMapping("/login")
     public ResponseEntity<?> authenticate(@RequestBody AppUser user) {
 
         UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(
@@ -50,7 +50,7 @@ public class AuthController {
         return new ResponseEntity<>(HttpStatus.FORBIDDEN);
     }
 
-    @PostMapping("/refresh")
+    @PostMapping("/refresh-token")
     public ResponseEntity<?> refresh(@AuthenticationPrincipal AppUser user){
         String jwt = converter.userToToken(user);
         HashMap<String, String> map = new HashMap<>();

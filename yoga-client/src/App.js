@@ -10,6 +10,7 @@ import SignUpForm from "./components/SignUpForm"
 
 import { refreshToken, logout } from "./services/authAPI";
 import Schedule from "./components/Schedule";
+import Profile from "./components/Profile";
 
 const TIMEOUT_MILLISECONDS = 14 * 60 * 1000;
 
@@ -75,6 +76,7 @@ function App() {
           <Route path="/login" element={<LoginForm />} />
           <Route path="/signup" element={<SignUpForm />} />
           <Route path="/schedule" element={<Schedule />} />
+          <Route path="/profile" element={renderWithAuthority(Profile, "STUDENT","INSTRUCTOR")}/>
         </Routes>
         </Router>
 
