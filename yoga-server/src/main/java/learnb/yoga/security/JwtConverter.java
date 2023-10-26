@@ -26,7 +26,7 @@ public class JwtConverter {
         return Jwts.builder()
                 .setIssuer(ISSUER)
                 .setSubject(user.getUsername())
-                .claim("appUserId", user.getEmailAddress())
+                .claim("appUserId", user.getAppUserId())
                 .claim("userType",user.getUserType())
                 .claim("authorities", authorities)
                 .setExpiration(new Date(System.currentTimeMillis() + EXPIRATION_MILLISECONDS))
@@ -49,7 +49,7 @@ public class JwtConverter {
 
             String username = jws.getBody().getSubject();
             int appUserId = jws.getBody().get("appUserId", Integer.class);
-           UserType userType = jws.getBody().get("userType", UserType.class);
+           UserType userType = UserType.valueOf(jws.getBody().get("userType", String.class));
 
             AppUser user = new AppUser();
             user.setEmailAddress(username);

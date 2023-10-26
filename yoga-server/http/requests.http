@@ -6,6 +6,82 @@ GET {{url}}/session/date/2023-10-27 HTTP/1.1
 
 ###
 
+GET {{url}}/reservation/1 HTTP/1.1
+
+###
+
+GET {{url}}/session/1 HTTP/1.1
+
+###
+
+GET {{url}}/user/1 HTTP/1.1
+
+###
+
+POST {{url}}/reservation HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJ5b2dhLXNlcnZlciIsInN1YiI6ImZuLmxuNkBlbWFpbC5jb20iLCJhcHBVc2VySWQiOjYsInVzZXJUeXBlIjoiSU5TVFJVQ1RPUiIsImF1dGhvcml0aWVzIjpbIklOU1RSVUNUT1IiXSwiZXhwIjoxNjk4MjY3MTQ2fQ.AS19sHy2VPRtAekV093KF7i4eH242QEZPsxvt3nOdos
+
+{
+    "id": 0,
+   "session": {
+  "id": 1,
+  "start": "2023-10-27T13:00:00",
+  "end": "2023-10-27T14:00:00",
+  "capacity": 3,
+  "instructor": {
+    "appUserId": 2,
+    "emailAddress": "fn.ln2@email.com",
+    "firstName": "FirstName2",
+    "lastName": "LastName2",
+    "dob": "1992-02-02",
+    "phoneNumber": "555-555-5552",
+    "userType": "INSTRUCTOR",
+    "password": "0",
+    "authorities": [
+      {
+        "authority": "INSTRUCTOR"
+      }
+    ],
+    "enabled": true,
+    "username": "fn.ln2@email.com",
+    "accountNonLocked": true,
+    "accountNonExpired": true,
+    "credentialsNonExpired": true
+  },
+  "location": {
+    "id": 1,
+    "name": "Location1",
+    "size": "SMALL",
+    "description": "Description1"
+  }
+},
+
+"student": {
+  "appUserId": 1,
+  "emailAddress": "fn.ln1@email.com",
+  "firstName": "FirstName1",
+  "lastName": "LastName1",
+  "dob": "1991-01-01",
+  "phoneNumber": "555-555-5551",
+  "userType": "STUDENT",
+  "password": "0",
+  "authorities": [
+    {
+      "authority": "STUDENT"
+    }
+  ],
+  "enabled": true,
+  "username": "fn.ln1@email.com",
+  "accountNonLocked": true,
+  "accountNonExpired": true,
+  "credentialsNonExpired": true
+}
+
+}
+
+###
+
 POST {{url}}/login HTTP/1.1
 Content-Type: application/json
 
@@ -22,6 +98,17 @@ Content-Type: application/json
 
 {
     "emailAddress": "fn.ln6@email.com",
+    "password": "P@ssw0rd!"
+
+}
+
+###
+
+POST {{url}}/register HTTP/1.1
+Content-Type: application/json
+
+{
+    "username": "fn.ln8@email.com",
     "password": "P@ssw0rd!"
 
 }

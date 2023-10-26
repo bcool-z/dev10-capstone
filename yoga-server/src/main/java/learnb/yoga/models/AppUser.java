@@ -1,5 +1,6 @@
 package learnb.yoga.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -24,6 +25,7 @@ public class AppUser implements UserDetails {
 
     private String password;
 
+    @JsonIgnore
     private ArrayList<GrantedAuthority> authorities = new ArrayList<>();
 
     @Override

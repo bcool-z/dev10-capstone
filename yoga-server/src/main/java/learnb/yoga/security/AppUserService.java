@@ -32,6 +32,12 @@ public class AppUserService implements UserDetailsService {
         return repository.findByEmail(email);
     }
 
+
+    public AppUser findById(int id){
+
+        return repository.findById(id);
+    }
+
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         AppUser user = repository.findByEmail(username);
