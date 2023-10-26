@@ -10,9 +10,13 @@ GET {{url}}/reservation/1 HTTP/1.1
 
 ###
 
-GET {{url}}/session/1 HTTP/1.1
+GET {{url}}/session/3 HTTP/1.1
 
 ###
+
+GET {{url}}/session/1 HTTP/1.1
+
+##
 
 GET {{url}}/user/1 HTTP/1.1
 
@@ -20,12 +24,12 @@ GET {{url}}/user/1 HTTP/1.1
 
 POST {{url}}/reservation HTTP/1.1
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJ5b2dhLXNlcnZlciIsInN1YiI6ImZuLmxuNkBlbWFpbC5jb20iLCJhcHBVc2VySWQiOjYsInVzZXJUeXBlIjoiSU5TVFJVQ1RPUiIsImF1dGhvcml0aWVzIjpbIklOU1RSVUNUT1IiXSwiZXhwIjoxNjk4MjY3MTQ2fQ.AS19sHy2VPRtAekV093KF7i4eH242QEZPsxvt3nOdos
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJ5b2dhLXNlcnZlciIsInN1YiI6ImZuLmxuNkBlbWFpbC5jb20iLCJhcHBVc2VySWQiOjYsInVzZXJUeXBlIjoiSU5TVFJVQ1RPUiIsImZpcnN0TmFtZSI6IkZpcnN0TmFtZTYiLCJsYXN0TmFtZSI6Ikxhc3ROYW1lNiIsInBob25lTnVtYmVyIjoiNTU1LTU1NS01NTU2IiwiZG9iIjoiMTk5Ni0wNi0wNiIsImF1dGhvcml0aWVzIjpbIklOU1RSVUNUT1IiXSwiZXhwIjoxNjk4Mjk3MjM0fQ.komJmyt05uEDjUvdwkjjw6lII-9CZQhOjwdTffUrQac
 
 {
     "id": 0,
    "session": {
-  "id": 1,
+ "id": 1,
   "start": "2023-10-27T13:00:00",
   "end": "2023-10-27T14:00:00",
   "capacity": 3,
@@ -38,16 +42,11 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJ5b2dhLXNlcnZlciIsInN1YiI6I
     "phoneNumber": "555-555-5552",
     "userType": "INSTRUCTOR",
     "password": "0",
-    "authorities": [
-      {
-        "authority": "INSTRUCTOR"
-      }
-    ],
     "enabled": true,
     "username": "fn.ln2@email.com",
-    "accountNonLocked": true,
     "accountNonExpired": true,
-    "credentialsNonExpired": true
+    "credentialsNonExpired": true,
+    "accountNonLocked": true
   },
   "location": {
     "id": 1,

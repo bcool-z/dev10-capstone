@@ -1,6 +1,20 @@
 const url = `${process.env.REACT_APP_URL}/reservation`;
 
 
+export async function findResByUserId(id) {
+
+    const response = await fetch(`${url}/student/${id}`);
+      if (response.status === 200) {
+        return response.json();
+      } else if (response.status === 404) {
+        return Promise.reject(`User id: ${id} could not be found.`);
+      } else {
+        return Promise.reject("Unexpected error.");
+      }
+    
+    }
+
+
 export async function makeReservation(reservation) {
     const jwtToken = localStorage.getItem("jwt_token");
     if (!jwtToken) {
@@ -10,7 +24,7 @@ export async function makeReservation(reservation) {
     const init = {
       headers: {
         "Content-Type": "application/json",
-        Accept: "application/json",
+        'Accept': "application/json",
         Authorization: "Bearer " + jwtToken,
       },
       body: JSON.stringify(reservation.id),

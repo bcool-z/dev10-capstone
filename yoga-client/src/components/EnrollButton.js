@@ -12,11 +12,12 @@ function EnrollButton({cls}) {
   const navigate = useNavigate();
 
 const [appUser,setAppUser]= useState("");
-const reservation = {
+
+const [reservation, setReservation] = useState( {
   id: 0,
   session: cls,
   student: appUser
-}
+})
 
 useEffect(() => {
   if (user) {

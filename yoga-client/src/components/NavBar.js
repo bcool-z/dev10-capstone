@@ -1,24 +1,21 @@
 import { useContext } from "react";
 import { NavLink, Link, useNavigate } from "react-router-dom";
-
 import AuthContext from "../contexts/AuthContext";
 
 function NavBar() {
-    const { user, logout } = useContext(AuthContext);
+  const { user, logout } = useContext(AuthContext);
+  const navigate = useNavigate();
 
-const navigate = useNavigate();
+  const handleLogout = () => {
+    logout();
+    navigate("/");
+  };
 
-    const handleLogout = () => {
-
-logout();
-navigate('/')
-
-    }
-return(
-<header>
-    <nav className="navbar navbar-expand-lg navbar-light">
+  return (
+    <header>
+      <nav className="navbar navbar-expand-lg navbar-light">
         <NavLink className="navbar-brand" to="/">
-            Yoga
+          Yoga
         </NavLink>
         <button
           className="navbar-toggler"
@@ -32,9 +29,9 @@ return(
           <span className="navbar-toggler-icon"></span>
         </button>
         <div className="collapse navbar-collapse">
-          <ul className="navbar-nav mr-auto">
-          <li className="nav-item">
-              <NavLink className="nav-link" to="/">
+          <ul className="navbar-nav ml-auto"> {/* Use ml-auto to push items to the right */}
+            <li className="nav-item">
+              <NavLink className="nav-link" to="/about">
                 About
               </NavLink>
             </li>
@@ -50,14 +47,16 @@ return(
                 </NavLink>
               </li>
             )}
-            </ul>
-            {!user && <div>
-             <Link to="/login">Login</Link>
-             { '  |  ' }
-             <Link to="/signup">Sign Up?</Link>
-            </div>}
+          </ul>
+          {!user && (
+            <div className="ml-auto"> {/* Use ml-auto to push items to the right */}
+              <Link to="/login">Login</Link>
+              {'  |  '}
+              <Link to="/signup">Sign Up</Link>
+            </div>
+          )}
           {user && (
-            <div>
+            <div className="ml-auto"> {/* Use ml-auto to push items to the right */}
               <span className="badge rounded-pill text-bg-info">
                 {user.username}
               </span>
@@ -68,13 +67,12 @@ return(
               >
                 Log out
               </button>
-              </div>
+            </div>
           )}
         </div>
-    </nav>
-</header>
-)
-
+      </nav>
+    </header>
+  );
 }
 
 export default NavBar;

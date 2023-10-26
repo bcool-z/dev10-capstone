@@ -2,19 +2,30 @@ import { useEffect, useState, useCallback, useContext } from "react";
 import AuthContext from "../contexts/AuthContext";
 import { findUserById } from "../services/userService";
 import { findUserByEmail } from "../services/userService";
+import { findResByUserId } from "../services/resService";
 
 export default function Profile() {
   const { user } = useContext(AuthContext);
 
-  const [appUser, setAppUser] = useState("");
+  // const [appUser, setAppUser] = useState("");
   const [isEditing, setIsEditing] = useState(false);
   const [editedUser, setEditedUser] = useState({ ...user });
 
+  const [reservations, setReservations] = useState([])
+
   useEffect(() => {
     if (user) {
-      findUserByEmail(user.username).then(setAppUser);
+      console.log(user.userId)
+      findResByUserId(user.userId).then(setReservations);
     }
-  }, [user]);
+  }, []);
+
+
+  // useEffect(() => {
+  //   if (user) {
+  //     findUserByEmail(user.username).then(setAppUser);
+  //   }
+  // }, [user]);
 
   const handleEditClick = () => {
     setIsEditing(true);
@@ -29,6 +40,8 @@ export default function Profile() {
   };
 
   return (
+
+    <>
     <div>
       <h2>User Profile</h2>
       {isEditing ? (
@@ -83,15 +96,33 @@ export default function Profile() {
         </div>
       ) : (
         <div>
-          <p>First Name: {appUser.firstName}</p>
-          <p>Last Name: {appUser.lastName}</p>
-          <p>Date of Birth: {appUser.dob}</p>
-          <p>Phone Number: {appUser.phoneNumber}</p>
-          <p>Email: {appUser.emailAddress}</p>
+          <p>First Name: {user.firstName}</p>
+          <p>Last Name: {user.lastName}</p>
+          <p>Date of Birth: {user.dob}</p>
+          <p>Phone Number: {user.phoneNumber}</p>
+          <p>Email: {user.username}</p>
           {/* Display more user details */}
           <button onClick={handleEditClick}>Edit</button>
         </div>
       )}
     </div>
+
+    <div>
+        <h2>Classes Signed up for:</h2>
+
+        
+      {reservations.length === 0 ? (
+        <p></p>
+      ) : (
+        <ul>
+          {reservations.map((res) => (
+            <li key={res.id}>{res.session.start}</li>
+          ))}
+        </ul>
+      )}
+    </div>
+
+
+    </>
   );
 }
