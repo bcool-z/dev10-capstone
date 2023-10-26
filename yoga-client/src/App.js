@@ -13,6 +13,8 @@ import { refreshToken, logout } from "./services/authService";
 import Schedule from "./components/Schedule";
 import Profile from "./components/Profile";
 
+import 'bootstrap/dist/css/bootstrap.min.css';
+
 const TIMEOUT_MILLISECONDS = 14 * 60 * 1000;
 
 function App() {

@@ -27,7 +27,7 @@ export async function makeReservation(reservation) {
         'Accept': "application/json",
         Authorization: "Bearer " + jwtToken,
       },
-      body: JSON.stringify(reservation.id),
+      body: JSON.stringify(reservation),
     };
   
     if (reservation.id > 0) {
