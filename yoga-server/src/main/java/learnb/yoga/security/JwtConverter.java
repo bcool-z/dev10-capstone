@@ -7,6 +7,7 @@ import learnb.yoga.models.UserType;
 import org.springframework.stereotype.Component;
 
 import java.security.Key;
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 
@@ -54,11 +55,19 @@ public class JwtConverter {
             String username = jws.getBody().getSubject();
             int appUserId = jws.getBody().get("appUserId", Integer.class);
            UserType userType = UserType.valueOf(jws.getBody().get("userType", String.class));
+           String firstName = jws.getBody().get("firstName",String.class);
+            String lastName = jws.getBody().get("lastName",String.class);
+            String phoneNumber = jws.getBody().get("phoneNumber",String.class);
+            LocalDate dob = LocalDate.parse(jws.getBody().get("dob", String.class));
 
             AppUser user = new AppUser();
             user.setEmailAddress(username);
             user.setAppUserId(appUserId);
             user.setUserType(userType);
+            user.setFirstName(firstName);
+            user.setLastName(lastName);
+            user.setPhoneNumber(phoneNumber);
+            user.setDob(dob);
             return user;
 
         } catch (JwtException ex) {
