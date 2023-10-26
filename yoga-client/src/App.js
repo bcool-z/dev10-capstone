@@ -1,5 +1,5 @@
 import { useEffect, useState, useCallback } from "react";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, useNavigate, Navigate } from "react-router-dom";
 import './App.css';
 import AuthContext from "./contexts/AuthContext";
 import NavBar from "./components/NavBar";
@@ -10,6 +10,7 @@ import SignUpForm from "./components/SignUpForm"
 
 import { refreshToken, logout } from "./services/authAPI";
 import Schedule from "./components/Schedule";
+import Profile from "./components/Profile";
 
 const TIMEOUT_MILLISECONDS = 14 * 60 * 1000;
 
@@ -32,6 +33,7 @@ function App() {
   useEffect(() => {
     resetUser();
   }, [resetUser]);
+
 
   const auth = {
     user: user,
@@ -75,6 +77,7 @@ function App() {
           <Route path="/login" element={<LoginForm />} />
           <Route path="/signup" element={<SignUpForm />} />
           <Route path="/schedule" element={<Schedule />} />
+          <Route path="/profile" element={<Profile />}/>
         </Routes>
         </Router>
 

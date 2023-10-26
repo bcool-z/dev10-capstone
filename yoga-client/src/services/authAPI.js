@@ -1,4 +1,4 @@
-const url = process.env.REACT_APP_API_URL;
+const url = process.env.REACT_APP_URL;
 
 export async function login(credentials) {
 
@@ -71,6 +71,7 @@ export function logout() {
 }
 
 function makeUserFromJwt(jwtToken) {
+  console.log(jwtToken)
   const jwtParts = jwtToken.split('.');
   if (jwtParts.length === 3) {
     const userData = atob(jwtParts[1]);

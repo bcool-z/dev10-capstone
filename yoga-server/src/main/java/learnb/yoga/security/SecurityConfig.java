@@ -22,16 +22,20 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http, AuthenticationConfiguration config) throws Exception {
 
-        http.csrf(c -> c.disable());
-        http.cors(Customizer.withDefaults());
+//        http.csrf(c -> c.disable());
+//        http.cors(Customizer.withDefaults());
+        http.csrf().disable();
+
+        http.cors();
 
         http.authorizeHttpRequests(authorize -> authorize
-                .requestMatchers(HttpMethod.POST, "/authenticate").permitAll()
-                .requestMatchers(HttpMethod.POST, "/refresh").authenticated()
+                .requestMatchers(HttpMethod.POST, "/login").permitAll()
+                .requestMatchers(HttpMethod.POST, "/register").permitAll()
+                .requestMatchers(HttpMethod.POST, "/refresh-token").authenticated()
                 .requestMatchers(HttpMethod.GET, "/**").permitAll()
-                .requestMatchers(HttpMethod.POST, "/**").hasAnyAuthority("USER", "ADMIN")
-                .requestMatchers(HttpMethod.PUT, "/**").hasAnyAuthority("USER", "ADMIN")
-                .requestMatchers(HttpMethod.DELETE, "/**").hasAuthority("ADMIN")
+                .requestMatchers(HttpMethod.POST, "/**").hasAnyAuthority("STUDENT", "INSTRUCTOR")
+                .requestMatchers(HttpMethod.PUT, "/**").hasAnyAuthority("STUDENT", "INSTRUCTOR")
+                .requestMatchers(HttpMethod.DELETE, "/**").hasAuthority("INSTRUCTOR")
         );
 
         http.addFilter(new JwtRequestFilter(manager(config), converter));
