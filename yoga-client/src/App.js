@@ -6,11 +6,14 @@ import NavBar from "./components/NavBar";
 import Home from "./components/Home";
 import Error from "./components/Error";
 import LoginForm from "./components/LoginForm";
-import SignUpForm from "./components/SignUpForm"
+import SignUpForm from "./components/SignUpForm";
+import About from "./components/About";
 
-import { refreshToken, logout } from "./services/authAPI";
+import { refreshToken, logout } from "./services/authService";
 import Schedule from "./components/Schedule";
 import Profile from "./components/Profile";
+
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 const TIMEOUT_MILLISECONDS = 14 * 60 * 1000;
 
@@ -74,6 +77,7 @@ function App() {
         <Routes>
 
           <Route path="/" element={<Home />} />
+          <Route path="/about" element={<About />}/>
           <Route path="/login" element={<LoginForm />} />
           <Route path="/signup" element={<SignUpForm />} />
           <Route path="/schedule" element={<Schedule />} />

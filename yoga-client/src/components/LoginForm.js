@@ -1,6 +1,6 @@
 import { useState, useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { login } from "../services/authAPI";
+import { login } from "../services/authService";
 
 import AuthContext from "../contexts/AuthContext";
 import ValidationSummary from "./ValidationSummary";

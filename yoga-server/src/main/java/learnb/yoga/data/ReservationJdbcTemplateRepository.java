@@ -51,7 +51,7 @@ public Reservation findById(int id) {
 public List<Reservation> findByStudent(AppUser student){
 
     final String sql = SELECT + """
-            where student_user_id = ?
+            where a.app_user_id = ?
             """;
     return jdbcTemplate.query(sql, new ReservationMapper(), student.getAppUserId());
 }
@@ -60,9 +60,9 @@ public List<Reservation> findByStudent(AppUser student){
 public Reservation add(Reservation reservation){
 
     final String sql = """ 
-         insert into app_user
-         (first_name, last_name, dob, phone_number, email_address, user_type,password_hash)
-         values (?,?,?,?,?,?,?)
+         insert into reservation
+         (session_id, student_id)
+         values (?,?)
 """;
 
     GeneratedKeyHolder keyHolder = new GeneratedKeyHolder();

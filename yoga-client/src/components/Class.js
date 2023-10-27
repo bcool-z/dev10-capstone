@@ -1,12 +1,21 @@
 import { useEffect,useState, useContext } from "react";
 import EnrollButton from "./EnrollButton";
 import AuthContext from "../contexts/AuthContext";
+import ValidationSummary from "./ValidationSummary";
 
 export default function Class({cls}){
 
   const { user } = useContext(AuthContext);
 
 const [enrolled, setEnrolled] = useState(0);
+
+const [errors, setError] = useState([]);
+
+const handleErrors = (errors) => {
+
+setError(errors);
+
+}
 
 useEffect(() => {
     // Define a function to fetch classes based on the selected date
@@ -38,7 +47,8 @@ return new Date(dateTime).toLocaleTimeString([], { hour: '2-digit', minute: '2-d
 return (
 
 <li>
-    {formattedTime(cls.start)} - {formattedTime(cls.end)}, {cls.instructor.firstName} {cls.instructor.lastName}, {cls.location.name} {enrolled}/{cls.capacity} <EnrollButton />
+  <ValidationSummary />
+    {formattedTime(cls.start)} - {formattedTime(cls.end)}, {cls.instructor.firstName} {cls.instructor.lastName}, {cls.location.name} {enrolled}/{cls.capacity} <EnrollButton cls={cls} onError={handleErrors} />
 </li>
 
 )

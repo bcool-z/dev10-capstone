@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
 import DateSelector from './DateSelector';
 import ClassList from './ClassList';
+import ValidationSummary from "./ValidationSummary";
 
 export default function Schedule()
 {
