@@ -103,8 +103,8 @@ public boolean update(AppUser appUser) {
             dob = ?,
             phone_number = ?,
             email_address = ?,
-            user_type = ?,
-            where user_id = ?;
+            user_type = ?
+            where app_user_id = ?
             """;
 
     return jdbcTemplate.update(sql,
@@ -113,7 +113,7 @@ public boolean update(AppUser appUser) {
             appUser.getDob(),
             appUser.getPhoneNumber(),
             appUser.getEmailAddress(),
-            appUser.getUserType(),
+            appUser.getUserType().toString(),
             appUser.getAppUserId()) > 0;
 }
 

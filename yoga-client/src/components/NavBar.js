@@ -30,7 +30,7 @@ function NavBar() {
       <span className="navbar-toggler-icon"></span>
     </button>
     <div className="collapse navbar-collapse">
-      <ul className="navbar-nav">
+      <ul className="navbar-nav me-auto">
         <li className="nav-item">
           <NavLink className="nav-link" to="/about">
             About
@@ -42,10 +42,10 @@ function NavBar() {
           </NavLink>
         </li>
       </ul>
-      <ul className="navbar-nav ml-auto"> {/* Move this part to the right */}
+      <ul className="navbar-nav "> 
       {user && (
           <li className="nav-item">
-            <NavLink className="nav-link" to="/Profile">
+            <NavLink className="nav-link" to="/profile">
               Profile
             </NavLink>
           </li>

@@ -1,5 +1,6 @@
 package learnb.yoga.controllers;
 
+import learnb.yoga.domain.ActionStatus;
 import learnb.yoga.models.AppUser;
 import learnb.yoga.models.Location;
 import learnb.yoga.security.AppUserService;
@@ -55,5 +56,30 @@ public class AppUserController {
 //        return new ResponseEntity<>(result.getPayload(),HttpStatus.CREATED);
 //
 //    }
+
+@PutMapping("/{index}")
+public ResponseEntity<?> update(@PathVariable int index, @RequestBody AppUser appUser) {
+
+    if(index != appUser.getAppUserId()){
+        return new ResponseEntity<>(HttpStatus.CONFLICT);
+    }
+
+    if(appUser.getAppUserId() <= 0){
+
+        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+    }
+
+    Result<AppUser> result= service.update(appUser);
+    if (!result.isSuccess()) {
+        if (result.getStatus() == ActionStatus.NOT_FOUND) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<>(result.getMessages(), HttpStatus.BAD_REQUEST);
+    }
+
+    return new ResponseEntity<>(result.getPayload(), HttpStatus.NO_CONTENT);
+
+}
+
 
 }
