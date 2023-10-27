@@ -8,31 +8,45 @@ import { useNavigate } from "react-router-dom";
 import ValidationSummary from "./ValidationSummary";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import { formatDate, formattedTime } from "../services/dateUtils";
+import { formatDate, formattedTime, stringToDate } from "../services/dateUtils";
+import { refreshToken } from "../services/authService";
 
 export default function Profile() {
   const { user } = useContext(AuthContext);
   const [errors, setErrors] = useState([]);
 
+  const [dispUser,setDispUser] = useState("");
+
 
   const [isEditing, setIsEditing] = useState(false);
 
   const userDob = new Date(user.dob); 
-const [editedUser, setEditedUser] = useState({ ...user, dob: userDob, emailAddress: user.username, userType: user.userType});
+const [editedUser, setEditedUser] = useState({ ...dispUser, dob: stringToDate(dispUser.dob), emailAddress: dispUser.username, userType: dispUser.userType});
 
   const [reservations, setReservations] = useState([])
   const navigate = useNavigate();
 
   useEffect(() => {
     if (user) {
-      console.log(user.appUserId)
+      console.log(user.appUserId);
       findResByUserId(user.appUserId).then(setReservations);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (user) {
+      console.log(user.appUserId);
+      findUserById(user.appUserId).then((userData) => {
+        console.log(userData);
+        setDispUser(userData);
+      });
     }
   }, []);
 
 
   const handleEditClick = () => {
     setIsEditing(true);
+    setEditedUser({...dispUser, dob: stringToDate(dispUser.dob)});
     
   };
 
@@ -43,11 +57,14 @@ const [editedUser, setEditedUser] = useState({ ...user, dob: userDob, emailAddre
       if (data?.errors) {
         setErrors(data.errors);
       } else {
-        navigate("/", {
+       
+        navigate("/profile", {
           state: { message: `${editedUser.id} saved!` },
         });
+        window.location.reload();
       }
     });
+ 
     setIsEditing(false);
   };
 
@@ -105,11 +122,11 @@ const [editedUser, setEditedUser] = useState({ ...user, dob: userDob, emailAddre
           </div>
         ) : (
           <div>
-            <p>First Name: {user.firstName}</p>
-            <p>Last Name: {user.lastName}</p>
-            <p>Phone Number: {user.phoneNumber}</p>
-            <p>Date of Birth: {user.dob}</p>
-            <p>Email: {user.username}</p>
+            <p>First Name: {dispUser.firstName}</p>
+            <p>Last Name: {dispUser.lastName}</p>
+            <p>Phone Number: {dispUser.phoneNumber}</p>
+            <p>Date of Birth: {dispUser.dob}</p>
+            <p>Email: {dispUser.username}</p>
             
             <button onClick={handleEditClick}>Edit</button>
           </div>

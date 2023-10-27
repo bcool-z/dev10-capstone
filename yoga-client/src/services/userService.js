@@ -1,7 +1,7 @@
 const url = process.env.REACT_APP_URL;
 
 export async function findUserById(id) {
-  const response = await fetch(`${url}/${id}`);
+  const response = await fetch(`${url}/user/${id}`);
   if (response.status === 200) {
     return response.json();
   } else if (response.status === 404) {

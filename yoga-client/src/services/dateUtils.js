@@ -9,3 +9,7 @@ export const formattedTime = (dateTime) => {
         return new Date(dateTime).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: true });
         
         }
+
+export const stringToDate = (dateString) =>{
+    return new Date(dateString);
+}
