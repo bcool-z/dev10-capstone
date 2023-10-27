@@ -25,7 +25,7 @@ const [reservation, setReservation] = useState( {
         setErrors(data.errors);
         onError(data.errors);
       } else {
-        navigate("/", {
+        navigate("/profile", {
           state: { message: `${reservation.id} saved!` },
         });
       }
