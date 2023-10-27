@@ -43,6 +43,12 @@ const [editedUser, setEditedUser] = useState({ ...dispUser, dob: stringToDate(di
     }
   }, []);
 
+  const fetchAndUpdateUserData = (userId) => {
+    findUserById(userId).then((userData) => {
+      setDispUser(userData);
+    });
+  };
+
 
   const handleEditClick = () => {
     setIsEditing(true);
@@ -57,11 +63,10 @@ const [editedUser, setEditedUser] = useState({ ...dispUser, dob: stringToDate(di
       if (data?.errors) {
         setErrors(data.errors);
       } else {
-       
+        fetchAndUpdateUserData(user.appUserId);
         navigate("/profile", {
           state: { message: `${editedUser.id} saved!` },
         });
-        window.location.reload();
       }
     });
  
