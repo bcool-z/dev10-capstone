@@ -55,7 +55,7 @@ public class AppUserService implements UserDetailsService {
 
         password = passwordEncoder.encode(password);
 
-        AppUser appUser = new AppUser(0, username, "0", "0", LocalDate.now().plusYears(-20),"0",UserType.STUDENT,password);
+        AppUser appUser = new AppUser(0, username, "0", "0", LocalDate.now().minusYears(100),"0",UserType.STUDENT,password);
 //        AppUser appUser = new AppUser();
 //        appUser.setUsername(username);
 //        appUser.setPassword(password);

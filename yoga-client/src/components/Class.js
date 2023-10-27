@@ -2,6 +2,7 @@ import { useEffect,useState, useContext } from "react";
 import EnrollButton from "./EnrollButton";
 import AuthContext from "../contexts/AuthContext";
 import ValidationSummary from "./ValidationSummary";
+import { formattedTime } from "../services/dateUtils";
 
 export default function Class({cls}){
 
@@ -39,10 +40,7 @@ useEffect(() => {
 
 
 
-const formattedTime = (dateTime) => {
-return new Date(dateTime).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: true });
 
-}
 
 return (
 

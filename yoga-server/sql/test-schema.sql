@@ -94,6 +94,9 @@ values
 ('Location7','SMALL','Description7');
 
 
+
+
+
 insert into `session` (start_time, end_time, capacity, instructor_id, location_id)
 values
 ('3024-02-22 13:00:00','3024-02-22 14:00:00',3,2,1),

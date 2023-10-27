@@ -52,7 +52,7 @@ function SignUpForm() {
         <form onSubmit={handleSubmit}>
           <div>
             <div className="form-group">
-              <label htmlFor="label">Username</label>
+              <label htmlFor="label">Email Address</label>
               <input
                 type="text"
                 className="form-control"

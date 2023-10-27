@@ -37,9 +37,9 @@ export async function saveUser(appUser) {
     body: JSON.stringify(appUser),
   };
 
-  if (appUser.id > 0) {
+  if (appUser.appUserId > 0) {
     init.method = "PUT";
-    const response = await fetch(`${url}/user/${appUser.id}`, init);
+    const response = await fetch(`${url}/user/${appUser.appUserId}`, init);
     if (response.status === 400) {
       const result = await response.json();
       return { errors: result.messages };
@@ -52,7 +52,7 @@ export async function saveUser(appUser) {
     }
   } else {
     init.method = "POST";
-    const response = await fetch(url, init);
+    const response = await fetch(`${url}/user`, init);
     if (response.status === 201) {
       return response.json();
     } else if (response.status === 400) {

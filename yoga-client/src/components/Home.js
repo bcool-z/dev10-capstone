@@ -5,7 +5,7 @@ export default function Home() {
     return(
 
         <div>
-            <h2> Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. </h2>
+            <h2> "Welcome to Yankee Yoga! We're thrilled to have you join our community of yoga enthusiasts. Whether you're a seasoned yogi or just starting your yoga journey, we're here to help you find balance, strength, and inner peace through the practice of yoga. Explore our classes, connect with like-minded individuals, and embark on a path to a healthier and more mindful life. Namaste!"</h2>
 
 
         </div>

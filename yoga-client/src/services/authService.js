@@ -83,6 +83,8 @@ function makeUserFromJwt(jwtToken) {
       lastName: decodedToken.lastName,
       phoneNumber: decodedToken.phoneNumber,
       dob: decodedToken.dob,
+      userType: decodedToken.userType,
+      emailAddress: decodedToken.sub,
       authorities: decodedToken.authorities
     };
   }
