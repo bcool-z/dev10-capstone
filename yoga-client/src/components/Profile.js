@@ -12,7 +12,6 @@ import { formatDate, formattedTime } from "../services/dateUtils";
 
 export default function Profile() {
   const { user } = useContext(AuthContext);
-
   const [errors, setErrors] = useState([]);
 
 
@@ -34,6 +33,7 @@ const [editedUser, setEditedUser] = useState({ ...user, dob: userDob, emailAddre
 
   const handleEditClick = () => {
     setIsEditing(true);
+    
   };
 
   const handleSaveClick = () => {
@@ -48,7 +48,6 @@ const [editedUser, setEditedUser] = useState({ ...user, dob: userDob, emailAddre
         });
       }
     });
-
     setIsEditing(false);
   };
 

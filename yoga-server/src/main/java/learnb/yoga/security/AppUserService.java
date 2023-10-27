@@ -66,6 +66,17 @@ public class AppUserService implements UserDetailsService {
         return result;
     }
 
+    public Result<AppUser> update(AppUser appUser){
+        Result result = new Result();
+       if(!repository.update(appUser)){
+           result.addMessage(ActionStatus.INVALID, "update unsuccessful");
+            return result;
+       }
+       result.setPayload(appUser);
+       return result;
+
+    }
+
     private Result<AppUser> validate(String username, String password) {
         Result<AppUser> result = new Result<>();
 
