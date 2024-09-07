@@ -70,7 +70,7 @@ export function logout() {
   localStorage.removeItem('jwt_token');
 }
 
-function makeUserFromJwt(jwtToken) {
+export function makeUserFromJwt(jwtToken) {
   console.log(jwtToken)
   const jwtParts = jwtToken.split('.');
   if (jwtParts.length === 3) {

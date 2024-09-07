@@ -22,8 +22,10 @@ function SignUpForm() {
   const handleSubmit = (evt) => {
     evt.preventDefault();
     setErrors([]);
-    if (!validateForm()) {
-      setErrors(["Passwords do not match!"]);
+
+    const validationErrors = validateForm;
+    if (validationErrors.length>0) {
+      setErrors(validationErrors);
       return;
     }
 
@@ -37,7 +39,42 @@ function SignUpForm() {
   };
 
   const validateForm = () => {
-    return credentials.password === credentials.confirmPassword;
+    const errors = [];
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+    if (emailRegex.test(credentials.username)){
+      errors.push("must be valid email.")
+    }
+
+    if (!/[^a-zA-Z0-9\s]/.test(credentials.password)) {
+      errors.push("Password must contain at least one special character.");
+    }
+    // Password must be at least 8 characters long
+    if (credentials.password.length < 8) {
+      errors.push("Password must be at least 8 characters long.");
+    }
+  
+    // Password must contain at least one number
+    if (!/\d/.test(credentials.password)) {
+      errors.push("Password must contain at least one number.");
+    }
+  
+    // Password must contain at least one uppercase letter
+    if (!/[A-Z]/.test(credentials.password)) {
+      errors.push("Password must contain at least one uppercase letter.");
+    }
+  
+    // Password must contain at least one lowercase letter
+    if (!/[a-z]/.test(credentials.password)) {
+      errors.push("Password must contain at least one lowercase letter.");
+    }
+  
+    // Passwords must match
+    if (credentials.password !== credentials.confirmPassword) {
+      errors.push("Passwords do not match.");
+    }
+  
+    return errors;
   };
 
   return (

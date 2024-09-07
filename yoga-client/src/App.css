@@ -1,3 +1,4 @@
+
 .App {
   text-align: center;
 }
@@ -40,3 +41,13 @@
 .form-control {
   max-width: 200px; 
 }
+
+.container {
+  width: 100vw;
+  height: 100vh;
+  background-image: url('./assets/images/saffu-Ct1Mx5OTn9A-unsplash.jpg'); 
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
