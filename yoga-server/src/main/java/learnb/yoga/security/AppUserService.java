@@ -47,7 +47,13 @@ public class AppUserService implements UserDetailsService {
         return user;
     }
 
-    public Result<AppUser> add(String username, String password) {
+    public Result<AppUser> add(
+                                String username,
+                                String firstName,
+                                String lastName,
+                                LocalDate dob,
+                                String phoneNumber,
+                               String password) {
         Result<AppUser> result = validate(username, password);
         if (!result.isSuccess()) {
             return result;
@@ -55,7 +61,7 @@ public class AppUserService implements UserDetailsService {
 
         password = passwordEncoder.encode(password);
 
-        AppUser appUser = new AppUser(0, username, "0", "0", LocalDate.now().minusYears(100),"0",UserType.STUDENT,password);
+        AppUser appUser = new AppUser(0, username, firstName, lastName, dob,phoneNumber,UserType.STUDENT,password);
 //        AppUser appUser = new AppUser();
 //        appUser.setUsername(username);
 //        appUser.setPassword(password);

@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -62,7 +63,12 @@ public class AuthController {
     public ResponseEntity<?> register(@RequestBody Map<String, String> credentials) {
 
         Result<AppUser> result = appUserService.add(
-                credentials.get("username"), credentials.get("password"));
+                credentials.get("username"),
+                credentials.get("firstName"),
+                credentials.get("lastName"),
+                LocalDate.parse(credentials.get("dob")),
+                credentials.get("phoneNumber"),
+                credentials.get("password"));
         if (result.isSuccess()) {
             Map<String, Integer> userId = new HashMap<>();
             userId.put("user_id", result.getPayload().getAppUserId());
