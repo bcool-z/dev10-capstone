@@ -7,6 +7,10 @@ import ValidationSummary from "./ValidationSummary";
 function SignUpForm() {
   const [errors, setErrors] = useState([]);
   const [credentials, setCredentials] = useState({
+    firstName: "",
+    lastName: "",
+    phoneNumber: "",
+    dob: "",
     username: "",
     password: "",
     confirmPassword: "",
@@ -41,6 +45,7 @@ function SignUpForm() {
   const validateForm = () => {
     const errors = [];
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    const phoneRegex = /^[0-9]{10}$/;
 
     if (emailRegex.test(credentials.username)){
       errors.push("must be valid email.")
@@ -88,6 +93,59 @@ function SignUpForm() {
       ) : (
         <form onSubmit={handleSubmit}>
           <div>
+            
+            <div className="form-group">
+              <label htmlFor="firstName">First Name</label>
+              <input
+                type="text"
+                className="form-control"
+                id="firstName"
+                name="firstName"
+                value={credentials.firstName}
+                onChange={handleChange}
+                required
+              />
+            </div>
+            
+            <div className="form-group">
+              <label htmlFor="lastName">Last Name</label>
+              <input
+                type="text"
+                className="form-control"
+                id="lastName"
+                name="lastName"
+                value={credentials.lastName}
+                onChange={handleChange}
+                required
+              />
+            </div>
+
+            <div className="form-group">
+              <label htmlFor="phoneNumber">Phone Number</label>
+              <input
+                type="tel"
+                className="form-control"
+                id="phoneNumber"
+                name="phoneNumber"
+                value={credentials.phoneNumber}
+                onChange={handleChange}
+                required
+              />
+              </div>
+
+              <div className="form-group">
+              <label htmlFor="dob">Date of Birth</label>
+              <input
+                type="date"
+                className="form-control"
+                id="dob"
+                name="dob"
+                value={credentials.dob}
+                onChange={handleChange}
+                required
+              />
+              </div>
+
             <div className="form-group">
               <label htmlFor="label">Email Address</label>
               <input
