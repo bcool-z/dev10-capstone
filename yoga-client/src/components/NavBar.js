@@ -41,6 +41,13 @@ function NavBar() {
             Schedule
           </NavLink>
         </li>
+        {user && user.userType=== 'INSTRUCTOR' && (
+          <li className="nav-item">
+              <NavLink className="nav-link" to="/instructors">
+                Manage Instructors
+              </NavLink>
+          </li>
+        )}
       </ul>
       <ul className="navbar-nav "> 
       {user && (

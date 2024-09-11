@@ -8,6 +8,7 @@ import Error from "./components/Error";
 import LoginForm from "./components/LoginForm";
 import SignUpForm from "./components/SignUpForm";
 import About from "./components/About";
+import Manage from "./components/Manage";
 
 import { refreshToken, logout } from "./services/authService";
 import Schedule from "./components/Schedule";
@@ -78,6 +79,7 @@ function App() {
 
           <Route path="/" element={<Home />} />
           <Route path="/about" element={<About />}/>
+          <Route path="/manage" element={<Manage />}/>
           <Route path="/login" element={<LoginForm />} />
           <Route path="/signup" element={<SignUpForm />} />
           <Route path="/schedule" element={<Schedule />} />
