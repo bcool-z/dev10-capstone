@@ -9,6 +9,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/user")
 public class AppUserController {
@@ -38,6 +40,13 @@ public class AppUserController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
         return new ResponseEntity<>(appUser,HttpStatus.OK);
+    }
+
+    @GetMapping("/search/{name}")
+    public List<AppUser> searchUsers(@PathVariable String query){
+
+       return service.searchUsers(query);
+
     }
 
 //    @PostMapping

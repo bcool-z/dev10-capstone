@@ -1,6 +1,7 @@
 package learnb.yoga.data;
 
 import learnb.yoga.data.mappers.AppUserMapper;
+import learnb.yoga.data.mappers.AppUserMapperSecure;
 import learnb.yoga.models.AppUser;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
@@ -37,7 +38,7 @@ public AppUser findById(int id) {
 }
 
 @Override
-public AppUser findByEmail(String email_address) {
+public AppUser findByEmail(String emailAddress) {
 
         final String sql = """
                 
@@ -45,10 +46,51 @@ public AppUser findByEmail(String email_address) {
                 email_address, user_type, password_hash from app_user where email_address = ?;
                 """;
 
-    AppUser appUser = jdbcTemplate.query(sql, new AppUserMapper(), email_address).stream().findFirst().orElse(null);
+    AppUser appUser = jdbcTemplate.query(sql, new AppUserMapper(), emailAddress).stream().findFirst().orElse(null);
 //   appUser.setAuthorities(List.of("USER","ADMIN"));
     return appUser;
 }
+
+    @Override
+    public List<AppUser> searchByEmail(String emailAddress) {
+        final String sql = """
+                
+                select app_user_id, first_name, last_name, dob, phone_number, 
+                email_address, user_type, password_hash from app_user where email_address = ?;
+                """;
+
+        return jdbcTemplate.query(sql, new AppUserMapperSecure(), emailAddress);
+//   appUser.setAuthorities(List.of("USER","ADMIN"));
+
+    }
+
+    @Override
+    public List<AppUser> searchByPhone(String phone) {
+        final String sql = """
+                
+                select app_user_id, first_name, last_name, dob, phone_number, 
+                email_address, user_type, password_hash from app_user where phone_number = ?;
+                """;
+
+        return jdbcTemplate.query(sql, new AppUserMapperSecure(), phone);
+    }
+
+    @Override
+    public List<AppUser> searchByName(String[] name) {
+        final String sql = """
+            
+            select app_user_id, first_name, last_name, dob, phone_number, 
+            email_address, user_type, password_hash 
+            from app_user 
+            where last_name LIKE ? AND first_name LIKE ?;
+            """;
+
+        // Assuming name[0] is lastName and name[1] is firstName
+        String lastName = name[0] + "%"; // partial match
+        String firstName = name.length > 1 ? name[1] + "%" : "%"; // handle case where first name is missing
+
+        return jdbcTemplate.query(sql, new AppUserMapperSecure(), lastName, firstName);
+    }
 
 //@Override
 //public List<AppUser> findByName(String fnPrefix, String lnPrefix) {

@@ -2,12 +2,16 @@ package learnb.yoga.data;
 
 import learnb.yoga.models.AppUser;
 
+import java.util.List;
+
 public interface AppUserRepository {
     AppUser findById(int id);
 
-    AppUser findByEmail(String email_address);
+    AppUser findByEmail(String emailAddress);
 
-//    List<AppUser> findByLastName(String prefix);
+    List<AppUser> searchByEmail(String query);
+    List<AppUser> searchByPhone(String query);
+    List<AppUser> searchByName(String[] query);
 
     AppUser add(AppUser user);
 

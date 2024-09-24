@@ -1,5 +1,6 @@
 package learnb.yoga.security;
 
+import learnb.yoga.App;
 import learnb.yoga.data.AppUserJdbcTemplateRepository;
 import learnb.yoga.domain.ActionStatus;
 import learnb.yoga.models.AppUser;
@@ -12,10 +13,17 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Pattern;
 
 @Service
 public class AppUserService implements UserDetailsService {
+
+
+    private static final Pattern emailRegex = Pattern.compile("^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$");
+
+    private static final Pattern phoneRegex = Pattern.compile("^[0-9]{10}$");
 
     private final AppUserJdbcTemplateRepository repository;
 
@@ -45,6 +53,23 @@ public class AppUserService implements UserDetailsService {
             throw new UsernameNotFoundException(String.format("%s not found", username));
         }
         return user;
+    }
+
+    public List<AppUser> searchUsers(String query){
+
+        List<AppUser> result = new ArrayList<>();
+
+           if(emailRegex.matcher(query).matches()){
+             result = repository.searchByEmail(query);
+           }
+           else if (phoneRegex.matcher(query).matches()){
+            result = repository.searchByPhone(query);
+           }
+           else{
+               String[] name = query.split(" ");
+               repository.searchByName(name);
+           }
+           return result;
     }
 
     public Result<AppUser> add(

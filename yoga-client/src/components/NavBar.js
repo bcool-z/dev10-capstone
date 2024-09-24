@@ -43,7 +43,7 @@ function NavBar() {
         </li>
         {user && user.userType=== 'INSTRUCTOR' && (
           <li className="nav-item">
-              <NavLink className="nav-link" to="/instructors">
+              <NavLink className="nav-link" to="/manage">
                 Manage Instructors
               </NavLink>
           </li>
