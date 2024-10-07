@@ -9,10 +9,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
-@RequestMapping("/user")
+@RequestMapping("/uesr")
 public class AppUserController {
 
     private final AppUserService service;
@@ -42,11 +43,12 @@ public class AppUserController {
         return new ResponseEntity<>(appUser,HttpStatus.OK);
     }
 
-    @GetMapping("/search/{name}")
+    @GetMapping("/search/{query}")
     public List<AppUser> searchUsers(@PathVariable String query){
+        List<AppUser> result = new ArrayList<>();
+       result = service.searchUsers(query);
 
-       return service.searchUsers(query);
-
+       return result;
     }
 
 //    @PostMapping

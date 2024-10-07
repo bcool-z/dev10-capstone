@@ -60,7 +60,6 @@ public AppUser findByEmail(String emailAddress) {
                 """;
 
         return jdbcTemplate.query(sql, new AppUserMapperSecure(), emailAddress);
-//   appUser.setAuthorities(List.of("USER","ADMIN"));
 
     }
 

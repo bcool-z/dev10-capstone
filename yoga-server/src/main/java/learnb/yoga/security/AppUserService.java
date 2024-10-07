@@ -57,7 +57,7 @@ public class AppUserService implements UserDetailsService {
 
     public List<AppUser> searchUsers(String query){
 
-        List<AppUser> result = new ArrayList<>();
+        List<AppUser> result = null;
 
            if(emailRegex.matcher(query).matches()){
              result = repository.searchByEmail(query);
@@ -66,8 +66,8 @@ public class AppUserService implements UserDetailsService {
             result = repository.searchByPhone(query);
            }
            else{
-               String[] name = query.split(" ");
-               repository.searchByName(name);
+               String[] name = query.split("\\+");
+               result = repository.searchByName(name);
            }
            return result;
     }

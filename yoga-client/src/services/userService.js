@@ -22,6 +22,17 @@ export async function findUserByEmail(email) {
   }
 }
 
+export async function searchUsers(query) {
+
+  const response = await fetch(`${url}/user/search/${query}`);
+    if (response.status === 200) {
+      return response.json();
+    } else {
+      return Promise.reject("Unexpected error.");
+    }
+  
+  }
+
 export async function saveUser(appUser) {
   const jwtToken = localStorage.getItem("jwt_token");
   if (!jwtToken) {
