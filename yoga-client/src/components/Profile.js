@@ -26,6 +26,7 @@ const [editedUser, setEditedUser] = useState({ ...dispUser, dob: stringToDate(di
   const [reservations, setReservations] = useState([])
   const navigate = useNavigate();
 
+
   useEffect(() => {
     if (user) {
       console.log(user.appUserId);
