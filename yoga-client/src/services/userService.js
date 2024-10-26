@@ -33,7 +33,7 @@ export async function searchUsers(query) {
   
   }
 
-export async function saveUser(appUser) {
+export async function saveUser(user) {
   const jwtToken = localStorage.getItem("jwt_token");
   if (!jwtToken) {
     return Promise.reject("Unauthorized.");
@@ -45,18 +45,18 @@ export async function saveUser(appUser) {
       Accept: "application/json",
       Authorization: "Bearer " + jwtToken,
     },
-    body: JSON.stringify(appUser),
+    body: JSON.stringify(user),
   };
 
-  if (appUser.appUserId > 0) {
+  if (user.appUserId > 0) {
     init.method = "PUT";
-    const response = await fetch(`${url}/user/${appUser.appUserId}`, init);
+    const response = await fetch(`${url}/user/${user.appUserId}`, init);
     if (response.status === 400) {
       const result = await response.json();
       return { errors: result.messages };
     } else if (response.status === 404) {
       return Promise.reject(
-        `Reservation id: ${appUser.id} could not be found.`
+        `user id: ${user.id} could not be found.`
       );
     } else if (response.status !== 204) {
       return Promise.reject("Unexpected error, oops.");

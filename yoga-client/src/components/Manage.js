@@ -1,15 +1,17 @@
 import { useState, useEffect } from "react";
 import { searchUsers,saveUser } from '../services/userService'; // Import your search function
 import { Modal, Button } from 'react-bootstrap'; 
+import { useNavigate } from "react-router-dom";
+
+
 
 function ManageUsers() {
   const [users, setUsers] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage] = useState(10);
-  const [showEditModal, setShowEditModal] = useState(false);
-  const [selectedUser, setSelectedUser] = useState(null);
 
+  const navigate = useNavigate();
   // Fetch instructors when the search button is clicked
   const fetchInstructors = async () => {
     try {
@@ -36,30 +38,11 @@ function ManageUsers() {
   };
 
   const handleRowDoubleClick = (user) => {
-    setSelectedUser(user);
-    setShowEditModal(true);
+    console.log(user.id)
+    navigate(`/profile/${user.appUserId}`, { state: { user } });
   };
 
-  const [isEditingFirstName, setIsEditingFirstName] = useState(false);
-  // const handleEdit = (user) => {
-  //   setSelectedUser(user);
-  //   setShowEditModal(true);
-  // };
 
-  // Close the modal
-  const handleCloseModal = () => {
-    setShowEditModal(false);
-    setSelectedUser(null); // Clear the selected user
-  };
-
-  // Handle saving the edited user details
-  const handleSave = (selectedUser) => {
-    // Implement save logic (e.g., update the user on the server)
-    saveUser(selectedUser);
-
-    // After saving, close the modal
-    setShowEditModal(false);
-  };
   // Pagination logic (unchanged)
   const indexOfLastUser = currentPage * itemsPerPage;
   const indexOfFirstUser = indexOfLastUser - itemsPerPage;
@@ -126,127 +109,6 @@ function ManageUsers() {
           </button>
         ))}
       </div>
-
-    {/* Edit User Modal */}
-    {selectedUser && (
-        <Modal show={showEditModal} onHide={handleCloseModal}>
-          <Modal.Header closeButton>
-            <Modal.Title>Edit User</Modal.Title>
-          </Modal.Header>
-          <Modal.Body>
-            <form>
-            <div className="mb-3">
-  <label>First Name</label>
-  {!isEditingFirstName ? (
-    <>
-      {/* Non-editable box styled like an input */}
-      <input
-        type="text"
-        className="form-control"
-        value={selectedUser.firstName}
-        disabled
-      />
-      <button
-        type="button"
-        className="btn btn-link"
-        onClick={() => setIsEditingFirstName(true)}
-      >
-        Edit
-      </button>
-    </>
-  ) : (
-    <>
-      {/* Editable input field */}
-      <input
-        type="text"
-        className="form-control"
-        value={selectedUser.firstName}
-        onChange={(e) =>
-          setSelectedUser({
-            ...selectedUser,
-            firstName: e.target.value,
-          })
-        }
-      />
-      <button
-        type="button"
-        className="btn btn-link"
-        onClick={() => setIsEditingFirstName(false)}
-      >
-        OK
-      </button>
-    </>
-  )}
-</div>
-              <div className="mb-3">
-                <label>Last Name</label>
-                <input
-                  type="text"
-                  className="form-control"
-                  value={selectedUser.lastName}
-                  onChange={(e) =>
-                    setSelectedUser({
-                      ...selectedUser,
-                      lastName: e.target.value,
-                    })
-                  }
-                />
-              </div>
-              <div className="mb-3">
-                <label>Birthday</label>
-                <input
-                  type="date"
-                  className="form-control"
-                  value={selectedUser.dob}
-                  onChange={(e) =>
-                    setSelectedUser({
-                      ...selectedUser,
-                      dob: e.target.value,
-                    })
-                  }
-                />
-              </div>
-              <div className="mb-3">
-                <label>Phone Number</label>
-                <input
-                  type="text"
-                  className="form-control"
-                  value={selectedUser.phoneNumber}
-                  onChange={(e) =>
-                    setSelectedUser({
-                      ...selectedUser,
-                      phoneNumber: e.target.value,
-                    })
-                  }
-                />
-              </div>
-              <div className="mb-3">
-                <label>Email</label>
-                <input
-                  type="email"
-                  className="form-control"
-                  value={selectedUser.emailAddress}
-                  onChange={(e) =>
-                    setSelectedUser({
-                      ...selectedUser,
-                      emailAddress: e.target.value,
-                    })
-                  }
-                />
-              </div>
-            </form>
-          </Modal.Body>
-          <Modal.Footer>
-            <Button variant="secondary" onClick={handleCloseModal}>
-              Close
-            </Button>
-            <Button variant="primary" onClick={handleSave}>
-              Save Changes
-            </Button>
-          </Modal.Footer>
-        </Modal>
-      )}
-
     </div>
   );
 }

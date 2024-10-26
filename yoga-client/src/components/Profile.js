@@ -1,84 +1,69 @@
-import { useEffect, useState, useCallback, useContext } from "react";
+import { useEffect, useState, useContext } from "react";
+import { useParams, useNavigate } from "react-router-dom";
 import AuthContext from "../contexts/AuthContext";
-import { findUserById } from "../services/userService";
-import { findUserByEmail } from "../services/userService";
+import { findUserById, saveUser } from "../services/userService";
 import { findResByUserId } from "../services/resService";
-import { saveUser } from "../services/userService";
-import { useNavigate } from "react-router-dom";
 import ValidationSummary from "./ValidationSummary";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import { formatDate, formattedTime, stringToDate } from "../services/dateUtils";
-import { refreshToken } from "../services/authService";
+import { formatDate, stringToDate } from "../services/dateUtils";
 
 export default function Profile() {
-  const { user } = useContext(AuthContext);
+  const { profileId } = useParams(); // Get userId from URL parameters
+  const { appUser } = useContext(AuthContext); // Get the current authenticated user
   const [errors, setErrors] = useState([]);
-
-  const [dispUser,setDispUser] = useState("");
-
-
+  const [dispUser, setDispUser] = useState(null); // To hold the profile being displayed
   const [isEditing, setIsEditing] = useState(false);
-
-  const userDob = new Date(user.dob); 
-const [editedUser, setEditedUser] = useState({ ...dispUser, dob: stringToDate(dispUser.dob), emailAddress: dispUser.username, userType: dispUser.userType});
-
-  const [reservations, setReservations] = useState([])
+  const [editedUser, setEditedUser] = useState(null);
+  const [reservations, setReservations] = useState([]);
   const navigate = useNavigate();
 
-
+  // Determine if the profile being viewed is the current user's
+  const isCurrentUser = appUser && appUser.id === parseInt(profileId);
+  const isInstructor = appUser?.authorities?.includes("INSTRUCTOR");
+  // Fetch user and reservations by userId (from the URL)
   useEffect(() => {
-    if (user) {
-      console.log(user.appUserId);
-      findResByUserId(user.appUserId).then(setReservations);
-    }
-  }, []);
-
-  useEffect(() => {
-    if (user) {
-      console.log(user.appUserId);
-      findUserById(user.appUserId).then((userData) => {
-        console.log(userData);
+    if (profileId) {
+      findUserById(profileId).then((userData) => {
+        console.log("User data:", userData);
         setDispUser(userData);
+        setEditedUser(userData);
       });
+
+      findResByUserId(profileId).then(setReservations);
     }
-  }, []);
+  }, [profileId]);
 
-  const fetchAndUpdateUserData = (userId) => {
-    findUserById(userId).then((userData) => {
-      setDispUser(userData);
-    });
-  };
-
-
+  // Handle edit/save logic
   const handleEditClick = () => {
     setIsEditing(true);
-    setEditedUser({...dispUser, dob: stringToDate(dispUser.dob)});
-    
+    setEditedUser({ ...dispUser, dob: stringToDate(dispUser.dob) });
   };
 
   const handleSaveClick = () => {
-    //convert Date dob back to string
-   setEditedUser({...editedUser, dob: formatDate(editedUser.dob)})
-    saveUser(editedUser).then((data) => {
+
+    
+    const formattedDate = formatDate(editedUser.dob);
+    console.log("about to be saved:", {...editedUser, dob: formattedDate});
+
+    saveUser({...editedUser, dob: formattedDate}).then((data) => {
       if (data?.errors) {
         setErrors(data.errors);
       } else {
-        fetchAndUpdateUserData(user.appUserId);
-        navigate("/profile", {
-          state: { message: `${editedUser.id} saved!` },
-        });
+        setIsEditing(false);
+        setDispUser({...editedUser, dob:formattedDate}); // Update display with saved data
+        navigate(`/profile/${profileId}`, { state: { message: `${editedUser.id} saved!` } });
       }
     });
- 
-    setIsEditing(false);
   };
+
+  if (!dispUser) return <div>Loading...</div>;
 
   return (
     <>
       <ValidationSummary errors={errors} />
       <div>
-        <h2>User Profile</h2>
+        <h2>{isCurrentUser ? "Your Profile" : `${dispUser.firstName}'s Profile`}</h2>
         {isEditing ? (
           <div>
             <label>First Name:</label>
@@ -110,20 +95,33 @@ const [editedUser, setEditedUser] = useState({ ...dispUser, dob: stringToDate(di
             <br />
             <label>Date of Birth:</label>
             <DatePicker
-              selected={editedUser.dob}
-              onChange={(date) => setEditedUser({ ...editedUser, dob: date })}
+              selected={editedUser.dob ? new Date(editedUser.dob) : null}
+              onChange={(date) =>
+                setEditedUser({...editedUser, dob: date})
+              }
             />
+
             <br />
             <label>Email Address:</label>
             <input
               type="text"
-              value={editedUser.username}
+              value={editedUser.emailAddress}
               onChange={(e) =>
                 setEditedUser({ ...editedUser, emailAddress: e.target.value })
               }
             />
             <br />
-       
+            <label>Instructor?</label>
+            <input 
+            type= "checkbox"
+            checked={editedUser.userType==="INSTRUCTOR"}
+            onChange={(e)=>{
+              const isChecked = e.target.checked;
+              const updatedUserType = isChecked
+              ? editedUser.userType = "INSTRUCTOR" : editedUser.userType = "STUDENT";
+              setEditedUser({...editedUser, userType: updatedUserType})
+            }} />
+            <br/>
             <button onClick={handleSaveClick}>Save</button>
           </div>
         ) : (
@@ -132,22 +130,23 @@ const [editedUser, setEditedUser] = useState({ ...dispUser, dob: stringToDate(di
             <p>Last Name: {dispUser.lastName}</p>
             <p>Phone Number: {dispUser.phoneNumber}</p>
             <p>Date of Birth: {dispUser.dob}</p>
-            <p>Email: {dispUser.username}</p>
-            
-            <button onClick={handleEditClick}>Edit</button>
+            <p>Email: {dispUser.emailAddress}</p>
+            {isInstructor&&(<p>{dispUser.userType === "INSTRUCTOR" ? "Instructor ✔️" : ""}</p>)}
+            {(isCurrentUser || isInstructor) && <button onClick={handleEditClick}>Edit</button>}
           </div>
         )}
       </div>
 
       <div>
         <h2>Classes Signed up for:</h2>
-
         {reservations.length === 0 ? (
-          <p></p>
+          <p>No reservations found.</p>
         ) : (
           <ul>
             {reservations.map((res) => (
-              <li key={res.id}>{formattedTime(res.session.start)} - {formattedTime(res.session.end)}, {res.session.location.name} with {res.session.instructor.firstName} {res.session.instructor.lastName} </li>
+              <li key={res.id}>
+                {res.session.start} - {res.session.end}, {res.session.location.name} with {res.session.instructor.firstName} {res.session.instructor.lastName}
+              </li>
             ))}
           </ul>
         )}

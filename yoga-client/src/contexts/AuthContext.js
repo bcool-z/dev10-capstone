@@ -4,23 +4,23 @@ import { makeUserFromJwt } from "../services/authService";
 const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
-    const [user, setUser] = useState(null);
+    const [appUser, setAppUser] = useState(null);
   
     useEffect(() => {
       const jwtToken = localStorage.getItem('jwt_token');
       if (jwtToken) {
-        const userData = makeUserFromJwt(jwtToken);
-        setUser(userData);
+        const appUserData = makeUserFromJwt(jwtToken);
+        setAppUser(appUserData);
       }
     }, []);
   
     const logout = () => {
       localStorage.removeItem('jwt_token');
-      setUser(null);
+      setAppUser(null);
     };
   
     return (
-      <AuthContext.Provider value={{ user, logout }}>
+      <AuthContext.Provider value={{ user: appUser, logout }}>
         {children}
       </AuthContext.Provider>
     );

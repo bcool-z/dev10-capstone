@@ -9,6 +9,7 @@ import LoginForm from "./components/LoginForm";
 import SignUpForm from "./components/SignUpForm";
 import About from "./components/About";
 import Manage from "./components/Manage";
+import ClassForm from "./components/ClassForm";
 
 import { refreshToken, logout } from "./services/authService";
 import Schedule from "./components/Schedule";
@@ -19,14 +20,14 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 const TIMEOUT_MILLISECONDS = 14 * 60 * 1000;
 
 function App() {
-  const [user, setUser] = useState();
+  const [appUser, setAppUser] = useState();
   const [initialized, setInitialized] = useState(false);
 
-  const resetUser = useCallback(() => {
+  const resetAppUser = useCallback(() => {
     refreshToken()
-      .then((user) => {
-        setUser(user);
-        setTimeout(resetUser, TIMEOUT_MILLISECONDS);
+      .then((appUser) => {
+        setAppUser(appUser);
+        setTimeout(resetAppUser, TIMEOUT_MILLISECONDS);
       })
       .catch((err) => {
         console.log(err);
@@ -35,22 +36,22 @@ function App() {
   }, []);
 
   useEffect(() => {
-    resetUser();
-  }, [resetUser]);
+    resetAppUser();
+  }, [resetAppUser]);
 
 
   const auth = {
-    user: user,
-    handleLoggedIn(user) {
-      setUser(user);
-      setTimeout(resetUser, TIMEOUT_MILLISECONDS);
+    appUser: appUser,
+    handleLoggedIn(appUser) {
+      setAppUser(appUser);
+      setTimeout(resetAppUser, TIMEOUT_MILLISECONDS);
     },
     hasAuthority(authority) {
-      return user?.authorities.includes(authority);
+      return appUser?.authorities.includes(authority);
     },
     logout() {
       logout();
-      setUser(null);
+      setAppUser(null);
     },
   };
 
@@ -83,7 +84,9 @@ function App() {
           <Route path="/login" element={<LoginForm />} />
           <Route path="/signup" element={<SignUpForm />} />
           <Route path="/schedule" element={<Schedule />} />
-          <Route path="/profile" element={<Profile />}/>
+          <Route path="/profile/:profileId" element={<Profile />}/>
+          <Route path="/ClassForm" element={<ClassForm />} />
+          
         </Routes>
         </Router>
 

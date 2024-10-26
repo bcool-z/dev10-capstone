@@ -78,7 +78,7 @@ export function makeUserFromJwt(jwtToken) {
     const decodedToken = JSON.parse(userData);
     return {
       username: decodedToken.sub,
-      appUserId: parseInt(decodedToken.appUserId,10),
+      id: parseInt(decodedToken.appUserId,10),
       firstName: decodedToken.firstName,
       lastName: decodedToken.lastName,
       phoneNumber: decodedToken.phoneNumber,

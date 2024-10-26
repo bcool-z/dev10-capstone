@@ -4,7 +4,7 @@ import AuthContext from "../contexts/AuthContext";
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 function NavBar() {
-  const { user, logout } = useContext(AuthContext);
+  const { appUser, logout } = useContext(AuthContext);
   const navigate = useNavigate();
 
   const handleLogout = () => {
@@ -41,7 +41,7 @@ function NavBar() {
             Schedule
           </NavLink>
         </li>
-        {user && user.userType=== 'INSTRUCTOR' && (
+        {appUser && appUser.userType=== 'INSTRUCTOR' && (
           <li className="nav-item">
               <NavLink className="nav-link" to="/manage">
                 Manage Instructors
@@ -50,14 +50,14 @@ function NavBar() {
         )}
       </ul>
       <ul className="navbar-nav "> 
-      {user && (
+      {appUser && (
           <li className="nav-item">
-            <NavLink className="nav-link" to="/profile">
+            <NavLink className="nav-link" to={`/profile/${appUser.id}`}>
               Profile
             </NavLink>
           </li>
         )}
-        {!user ? (
+        {!appUser ? (
           <>
             <li className="nav-item">
               <Link to="/login" className="nav-link">
@@ -74,7 +74,7 @@ function NavBar() {
           <>
             <li className="nav-item">
               <span className="badge rounded-pill text-bg-info">
-                {user.username}
+                {appUser.username}
               </span>
             </li>
             <li className="nav-item">
