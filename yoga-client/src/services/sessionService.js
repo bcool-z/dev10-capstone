@@ -1,6 +1,22 @@
 const url = `${process.env.REACT_APP_URL}/session`;
 
-export async function makeSession(session) {
+export async function fetchSessionsByDate(selectedDate){
+        try {
+          const response = await fetch(`http://localhost:8080/session/date/${selectedDate}`);
+          if (response.ok) {
+            const data = await response.json();
+            return(data);
+          } else {
+            console.error('Error fetching classes');
+          }
+        } catch (error) {
+          console.error('Error fetching classes:', error);
+        }
+
+
+};
+
+export async function saveSession(session) {
     const jwtToken = localStorage.getItem("jwt_token");
     if (!jwtToken) {
       return Promise.reject("Unauthorized.");
@@ -23,7 +39,7 @@ export async function makeSession(session) {
         return { errors: result.messages };
       } else if (response.status === 404) {
         return Promise.reject(
-          `Reservation id: ${session.id} could not be found.`
+          `session id: ${session.id} could not be found.`
         );
       } else if (response.status !== 204) {
         return Promise.reject("Unexpected error, oops.");

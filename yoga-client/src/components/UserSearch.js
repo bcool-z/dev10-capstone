@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react";
-import { Modal, Button } from 'react-bootstrap';
+import { Button } from 'react-bootstrap';
 import { searchUsers } from '../services/userService';
 
-export default function UserSearchModal({ show, handleClose, onUserSelect }) {
+export default function UserSearch({ show, handleClose, onUserSelect }) {
   const [users, setUsers] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
@@ -23,6 +23,8 @@ export default function UserSearchModal({ show, handleClose, onUserSelect }) {
     fetchUsers();
   };
 
+
+
   const handlePageChange = (pageNumber) => {
     setCurrentPage(pageNumber);
   };
@@ -33,11 +35,7 @@ export default function UserSearchModal({ show, handleClose, onUserSelect }) {
   const totalPages = Math.ceil(users.length / itemsPerPage);
 
   return (
-    <Modal show={show} onHide={handleClose}>
-      <Modal.Header closeButton>
-        <Modal.Title>Search Users</Modal.Title>
-      </Modal.Header>
-      <Modal.Body>
+    <div>
         <div className="input-group mb-4">
           <input
             type="text"
@@ -85,7 +83,6 @@ export default function UserSearchModal({ show, handleClose, onUserSelect }) {
             </Button>
           ))}
         </div>
-      </Modal.Body>
-    </Modal>
+      </div>
   );
 }

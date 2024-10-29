@@ -29,8 +29,8 @@ export default function Schedule() {
   return (
     <div>
       <h1>Class Sign-up</h1>
-      <DateSelector selectedDate={selectedDate} handleDateChange={handleDateChange} />
-      <ClassList selectedDate={selectedDate} />
+      {/* <DateSelector selectedDate={selectedDate} handleDateChange={handleDateChange} />
+      <ClassList selectedDate={selectedDate} /> */}
 
       {/* Button only visible to instructors */}
       {isInstructor && (

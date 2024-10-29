@@ -1,25 +1,37 @@
 import React, { useState, useEffect } from 'react';
 import { Modal, Button, Form } from 'react-bootstrap';
 import { fetchLocations } from '../services/locationService'; // Assumes a function to fetch locations
-// import InstructorSearchModal from './InstructorSearchModal'; // Reusable search modal
-
+import UserSearch from './UserSearch';
+import { saveSession } from '../services/sessionService';
 
 export default function ClassForm({ initialSession, onSave }) {
     const [session, setSession] = useState(initialSession || { id: 0, start: '', end: '', capacity: '', instructor: null, location: null });
     const [locations, setLocations] = useState([]);
-    const [showInstructorModal, setShowInstructorModal] = useState(false);
+    const [showModal, setShowModal] = useState(false);
+
+    const handleShowModal = () => {
+        setShowModal(true);
+    }
+
+    const handleCloseModal = () => {
+        setShowModal(false);
+    }
+
+    const handleDoubleClick = () => {
+
+    }
 
     useEffect(() => {
         // Fetch available locations on load
         fetchLocations().then(setLocations);
     }, []);
 
-    const handleSave = () => onSave(session);
+    const handleSave = () => saveSession(session);
 
-    const handleInstructorSelect = (instructor) => {
-        setSession({ ...session, instructor });
-        setShowInstructorModal(false);
-    };
+    // const handleInstructorSelect = (instructor) => {
+    //     setSession({ ...session, instructor });
+    //     setModal(false);
+    // };
 
     return (
         <div>
@@ -68,20 +80,27 @@ export default function ClassForm({ initialSession, onSave }) {
 
                 <Form.Group>
                     <Form.Label>Instructor</Form.Label>
-                    <Button variant="secondary" onClick={() => setShowInstructorModal(true)}>
-                        {session.instructor ? `${session.instructor.firstName} ${session.instructor.lastName}` : 'Select Instructor'}
-                    </Button>
+                    <br/>
+                    <Button onClick={handleShowModal}>Search</Button>
+                    <span style = {{marginLeft: '10px'}}>
+                        {session.instructor ?
+                        `${session.instructor.firstName} ${session.instructor.lastName}` 
+                        : "no instructor selected"}
+                    </span>
                 </Form.Group>
-
+                    <br/>
                 <Button variant="primary" onClick={handleSave}>Save</Button>
             </Form>
 
+
             {/* Instructor Selection Modal */}
-            <InstructorSearchModal
-                show={showInstructorModal}
-                onHide={() => setShowInstructorModal(false)}
-                onSelect={handleInstructorSelect}
-            />
+            <Modal show={showModal} onHide={handleCloseModal}>
+                <Modal.Header closeButton>
+                    Find Instructor
+                    </Modal.Header>
+          <UserSearch onUserSelect={(user)=>{setSession({...session, instructor: user});
+        handleCloseModal();}}/>
+            </Modal>
         </div>
     );
 }
