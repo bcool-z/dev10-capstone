@@ -35,11 +35,11 @@ class SessionJdbcTemplateRepositoryTest {
 assertEquals(0,repository.getEnrollmentCount(2));
 
 
+
+
     }
     @Test
     void findById() {
-
-
 
         Session expected = SESSION_THREE;
         //
@@ -82,7 +82,6 @@ assertEquals(0,repository.getEnrollmentCount(2));
 
         actual = repository.findByLocation(location1);
         assertEquals(2,actual.size());
-
     }
 
     @Test
@@ -94,4 +93,12 @@ assertEquals(0,repository.getEnrollmentCount(2));
 
     }
 
+    @Test
+    void add() {
+        Session actual = makeSession(5);
+        repository.add(actual);
+        Session expected = makeSession(5);
+        expected.setId(4);
+        assertEquals(expected,repository.findById(4));
+    }
 }

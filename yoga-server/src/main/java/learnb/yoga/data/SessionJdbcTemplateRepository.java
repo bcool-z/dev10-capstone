@@ -8,6 +8,8 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
 
+import java.sql.Date;
+import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.List;
@@ -97,12 +99,12 @@ public Session add(Session session){
     // SimpleJdbcInsert
 
     SimpleJdbcInsert insert = new SimpleJdbcInsert(jdbcTemplate)
-            .withTableName("session")
+            .withTableName("`session`")
             .usingGeneratedKeyColumns("session_id");
 
     HashMap<String,Object> args = new HashMap<>();
-    args.put("start_time",session.getStart());
-    args.put("end_time",session.getEnd());
+    args.put("start_time", Timestamp.valueOf(session.getStart()));
+    args.put("end_time", Timestamp.valueOf(session.getEnd()));
     args.put("capacity",session.getCapacity());
     args.put("instructor_id",session.getInstructor().getAppUserId());
     args.put("location_id",session.getLocation().getId());

@@ -37,6 +37,17 @@ public class TestHelper {
         return location;
     }
 
+    static public Session makeSession(int index){
+      Session session  = new Session();
+      session.setId(0);
+      session.setStart(LocalDateTime.of(3000+index,1,10,index,30,0));
+      session.setEnd(LocalDateTime.of(3000+index,1,10,index+1,30,0));
+      session.setCapacity(10);
+      session.setInstructor(makeUser(4));
+      session.setLocation(makeLocation(1));
+        return session;
+    }
+
     public static final Session SESSION_ONE = new Session(1, LocalDateTime.of(3024, 2,22,13, 0, 0),
             LocalDateTime.of(3024, 2,22,14, 0, 0),
             3,makeUser(2),makeLocation(1));
@@ -48,4 +59,6 @@ public class TestHelper {
     public static final Session SESSION_THREE = new Session(3, LocalDateTime.of(3024, 2,23,10, 0, 0),
             LocalDateTime.of(3024, 2,23,11, 0, 0),
             12,makeUser(4),makeLocation(3));
+
+
 }
