@@ -29,7 +29,7 @@ class ReservationJdbcTemplateRepositoryTest {
         Reservation expected = new Reservation();
 
         expected.setId(1);
-        expected.setSession(SESSION_ONE);
+        expected.setYogaSession(SESSION_ONE);
         expected.setStudent(makeUser(1));
 
         Reservation actual = repository.findById(1);

@@ -3,12 +3,14 @@ import { Modal, Button, Form } from 'react-bootstrap';
 import { fetchLocations } from '../services/locationService'; // Assumes a function to fetch locations
 import UserSearch from './UserSearch';
 import { saveSession } from '../services/sessionService';
+import { useNavigate } from 'react-router-dom';
+import ValidationSummary from './ValidationSummary';
 
 export default function ClassForm({ initialSession, onSave }) {
     const [session, setSession] = useState(initialSession || { id: 0, start: '', end: '', capacity: '', instructor: null, location: null });
     const [locations, setLocations] = useState([]);
     const [showModal, setShowModal] = useState(false);
-
+    const [errors,setErrors] = useState([]);
     const handleShowModal = () => {
         setShowModal(true);
     }
@@ -26,15 +28,21 @@ export default function ClassForm({ initialSession, onSave }) {
         fetchLocations().then(setLocations);
     }, []);
 
-    const handleSave = () => saveSession(session);
+    const navigate = useNavigate();
 
-    // const handleInstructorSelect = (instructor) => {
-    //     setSession({ ...session, instructor });
-    //     setModal(false);
-    // };
+    const handleSave = async () => {
+       const result = await saveSession(session);
+       if(result?.messages && result.messages.length>0){
+            setErrors(result.messages);
+       }
+       else{
+        navigate("/schedule");}
+    }
+
 
     return (
         <div>
+            <ValidationSummary errors = {errors}/>
             <h2>{session.id === 0 ? 'New Class' : 'Edit Class'}</h2>
             <Form>
                 <Form.Group>

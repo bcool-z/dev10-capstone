@@ -21,7 +21,7 @@ public class ReservationJdbcTemplateRepository implements ReservationRepository 
     }
 
     private String SELECT = """
-             select r.reservation_id, s.session_id, s.start_time, s.end_time,
+             select r.reservation_id, s.yoga_session_id, s.start_time, s.end_time,
                 s.capacity, i.app_user_id, i.first_name, i.last_name, i.dob, i.phone_number, 
                 i.email_address, i.user_type, i.password_hash, l.location_id, l.name, l.size, l.description,
                 a.app_user_id student_user_id, a.first_name student_first_name, 
@@ -29,7 +29,7 @@ public class ReservationJdbcTemplateRepository implements ReservationRepository 
                 a.email_address student_email_address,
                 a.user_type student_user_type
                 from reservation r
-                inner join session s on s.session_id = r.session_id
+                inner join yoga_session s on s.yoga_session_id = r.yoga_session_id
                 inner join app_user i on i.app_user_id = s.instructor_id
                 inner join location l on l.location_id = s.location_id
                 inner join app_user a on a.app_user_id = r.student_id
@@ -68,7 +68,7 @@ public Reservation add(Reservation reservation){
     GeneratedKeyHolder keyHolder = new GeneratedKeyHolder();
     int rowsAffected = jdbcTemplate.update(connection -> {
         PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-        ps.setInt(1,reservation.getSession().getId());
+        ps.setInt(1,reservation.getYogaSession().getId());
         ps.setInt(2,reservation.getStudent().getAppUserId());
         return ps;},keyHolder);
 
@@ -92,7 +92,7 @@ public boolean update(Reservation reservation){
             """;
 
     return  jdbcTemplate.update(sql,
-            reservation.getSession().getId(),
+            reservation.getYogaSession().getId(),
             reservation.getStudent().getAppUserId(),reservation.getId()) > 0;
 }
 

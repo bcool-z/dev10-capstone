@@ -2,7 +2,7 @@ package learnb.yoga.data;
 
 import learnb.yoga.models.AppUser;
 import learnb.yoga.models.Location;
-import learnb.yoga.models.Session;
+import learnb.yoga.models.YogaSession;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,13 +16,13 @@ import static learnb.yoga.data.TestHelper.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
-class SessionJdbcTemplateRepositoryTest {
+class YogaSessionJdbcTemplateRepositoryTest {
 
     @Autowired
     JdbcTemplate jdbcTemplate;
 
     @Autowired
-    SessionJdbcTemplateRepository repository;
+    YogaSessionJdbcTemplateRepository repository;
 
     @BeforeEach
     void setup() {jdbcTemplate.execute("call set_known_good_state();"); }
@@ -41,9 +41,9 @@ assertEquals(0,repository.getEnrollmentCount(2));
     @Test
     void findById() {
 
-        Session expected = SESSION_THREE;
+        YogaSession expected = SESSION_THREE;
         //
-        Session actual = repository.findById(3);
+        YogaSession actual = repository.findById(3);
 
         assertEquals(expected,actual);
     }
@@ -51,7 +51,7 @@ assertEquals(0,repository.getEnrollmentCount(2));
     @Test
     void findByDate() {
 
-        List<Session> actual = repository.findByDate(LocalDate.of(3024,02,22));
+        List<YogaSession> actual = repository.findByDate(LocalDate.of(3024,02,22));
 
         assertEquals(2,actual.size());
 
@@ -74,7 +74,7 @@ assertEquals(0,repository.getEnrollmentCount(2));
         List actual = repository.findByLocation(location1);
         assertEquals(1,actual.size());
 
-        Session expected = SESSION_THREE;
+        YogaSession expected = SESSION_THREE;
 
         expected.setLocation(location1);
 
@@ -95,9 +95,9 @@ assertEquals(0,repository.getEnrollmentCount(2));
 
     @Test
     void add() {
-        Session actual = makeSession(5);
+        YogaSession actual = makeYogaSession(5);
         repository.add(actual);
-        Session expected = makeSession(5);
+        YogaSession expected = makeYogaSession(5);
         expected.setId(4);
         assertEquals(expected,repository.findById(4));
     }

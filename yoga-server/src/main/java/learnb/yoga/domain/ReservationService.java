@@ -1,10 +1,9 @@
 package learnb.yoga.domain;
 
 import learnb.yoga.data.ReservationRepository;
-import learnb.yoga.data.SessionRepository;
+import learnb.yoga.data.YogaSessionRepository;
 import learnb.yoga.models.AppUser;
 import learnb.yoga.models.Reservation;
-import learnb.yoga.models.Session;
 import learnb.yoga.validation.Result;
 import org.springframework.stereotype.Service;
 
@@ -16,11 +15,11 @@ public class ReservationService {
 
     final ReservationRepository repository;
 
-    final SessionRepository sessionRepository;
+    final YogaSessionRepository yogaSessionRepository;
 
-    public ReservationService(ReservationRepository repository, SessionRepository sessionRepository) {
+    public ReservationService(ReservationRepository repository, YogaSessionRepository yogaSessionRepository) {
         this.repository = repository;
-        this.sessionRepository = sessionRepository;
+        this.yogaSessionRepository = yogaSessionRepository;
     }
 
 
@@ -83,7 +82,7 @@ public class ReservationService {
             result.addMessage(ActionStatus.INVALID, "Reservation cannot be null.");
             return result;
         }
-        if(reservation.getSession()==null){
+        if(reservation.getYogaSession()==null){
             result.addMessage(ActionStatus.INVALID, "Session cannot be null.");
             return result;
         }
@@ -92,8 +91,8 @@ public class ReservationService {
             return result;
         }
 
-        if(sessionRepository.getEnrollmentCount(reservation.getSession().getId())
-                >= reservation.getSession().getCapacity()){
+        if(yogaSessionRepository.getEnrollmentCount(reservation.getYogaSession().getId())
+                >= reservation.getYogaSession().getCapacity()){
             result.addMessage(ActionStatus.INVALID, "Class is full");
             return result;
         }
@@ -101,10 +100,10 @@ public class ReservationService {
                 repository.findByStudent(reservation.getStudent());
 
         for(Reservation sr : studentReservations){
-            boolean overlaps = sr.getSession().getStart()
-                    .isBefore(reservation.getSession().getEnd())
-                    && sr.getSession().getEnd()
-                    .isAfter(reservation.getSession().getStart());
+            boolean overlaps = sr.getYogaSession().getStart()
+                    .isBefore(reservation.getYogaSession().getEnd())
+                    && sr.getYogaSession().getEnd()
+                    .isAfter(reservation.getYogaSession().getStart());
             if(sr.getId() != reservation.getId() && overlaps){
                 result.addMessage(ActionStatus.INVALID, "student has conflicting reservation");
                 return result;

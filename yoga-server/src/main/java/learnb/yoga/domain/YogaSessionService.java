@@ -1,39 +1,37 @@
 package learnb.yoga.domain;
 
-import learnb.yoga.data.SessionJdbcTemplateRepository;
-import learnb.yoga.data.SessionRepository;
-import learnb.yoga.models.Session;
+import learnb.yoga.data.YogaSessionRepository;
+import learnb.yoga.models.YogaSession;
 import learnb.yoga.validation.Result;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 @Service
-public class SessionService {
+public class YogaSessionService {
 
-private final SessionRepository repository;
+private final YogaSessionRepository repository;
 
-    public SessionService(SessionRepository repository) {
+    public YogaSessionService(YogaSessionRepository repository) {
         this.repository = repository;
     }
 
     public int getEnrolled(int sessionId){return repository.getEnrollmentCount(sessionId);}
-public Session findById(int id){
+public YogaSession findById(int id){
         return repository.findById(id);
 }
 
-public List<Session> findByDate(LocalDate date){
+public List<YogaSession> findByDate(LocalDate date){
 
         return repository.findByDate(date);
 }
 
-public Result<Session> add(Session session){
+public Result<YogaSession> add(YogaSession session){
 
-Result<Session> result = validate(session);
+Result<YogaSession> result = validate(session);
 
 if(!result.isSuccess()){
     return result;
@@ -45,15 +43,15 @@ if(session.getId()!=0){
 }
 if(result.isSuccess()){
 
-    Session s = repository.add(session);
+    YogaSession s = repository.add(session);
     result.setPayload(s);
 }
 return result;
 }
 
-public Result<Session> update(Session session){
+public Result<YogaSession> update(YogaSession session){
 
-        Result<Session> result = validate(session);
+        Result<YogaSession> result = validate(session);
         if(!result.isSuccess()){
             return result;
         }
@@ -71,9 +69,9 @@ public Result<Session> update(Session session){
 
 }
 
-public Result<Session> deleteById(int id) {
+public Result<YogaSession> deleteById(int id) {
 
-        Result<Session> result = new Result<>();
+        Result<YogaSession> result = new Result<>();
         boolean success = repository.deleteById(id);
         if(!success) {
 
@@ -82,8 +80,8 @@ public Result<Session> deleteById(int id) {
         return result;
 }
 
-private Result<Session> validate(Session session){
-        Result<Session> result = new Result<>();
+private Result<YogaSession> validate(YogaSession session){
+        Result<YogaSession> result = new Result<>();
 
         if(session == null){
             result.addMessage(ActionStatus.INVALID, "Session cannot be null.");
@@ -112,15 +110,15 @@ private Result<Session> validate(Session session){
             return result;
         }
 
-            List<Session> sessions1 = repository.findByDate(session.getStart().toLocalDate());
-            List<Session> sessions2 = repository.findByDate(session.getEnd().toLocalDate());
+            List<YogaSession> sessions1 = repository.findByDate(session.getStart().toLocalDate());
+            List<YogaSession> sessions2 = repository.findByDate(session.getEnd().toLocalDate());
 
-            List<Session> sessions = Stream.concat(sessions1.stream(), sessions2.stream())
+            List<YogaSession> sessions = Stream.concat(sessions1.stream(), sessions2.stream())
                     .distinct()
                     .toList();
 
 
-        for(Session s : sessions){
+        for(YogaSession s : sessions){
             boolean overlaps = s.getStart().isBefore(session.getEnd())
                     && s.getEnd().isAfter(session.getStart());
 

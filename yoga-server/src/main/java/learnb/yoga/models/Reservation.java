@@ -6,7 +6,7 @@ public class Reservation {
 
     private int id;
 
-    private Session session;
+    private YogaSession yogaSession;
 
     private AppUser student;
 
@@ -18,12 +18,12 @@ public class Reservation {
         this.id = id;
     }
 
-    public Session getSession() {
-        return session;
+    public YogaSession getYogaSession() {
+        return yogaSession;
     }
 
-    public void setSession(Session session) {
-        this.session = session;
+    public void setYogaSession(YogaSession yogaSession) {
+        this.yogaSession = yogaSession;
     }
 
     public AppUser getStudent() {
@@ -39,11 +39,11 @@ public class Reservation {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Reservation that = (Reservation) o;
-        return id == that.id && Objects.equals(session, that.session) && Objects.equals(student, that.student);
+        return id == that.id && Objects.equals(yogaSession, that.yogaSession) && Objects.equals(student, that.student);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, session, student);
+        return Objects.hash(id, yogaSession, student);
     }
 }

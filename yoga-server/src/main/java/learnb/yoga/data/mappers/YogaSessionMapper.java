@@ -2,24 +2,24 @@ package learnb.yoga.data.mappers;
 
 import learnb.yoga.models.AppUser;
 import learnb.yoga.models.Location;
-import learnb.yoga.models.Session;
+import learnb.yoga.models.YogaSession;
 import org.springframework.jdbc.core.RowMapper;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class SessionMapper implements RowMapper<Session> {
+public class YogaSessionMapper implements RowMapper<YogaSession> {
 
     @Override
-    public Session mapRow(ResultSet resultSet, int rowNum) throws SQLException {
+    public YogaSession mapRow(ResultSet resultSet, int rowNum) throws SQLException {
 
-        Session session = new Session();
-        session.setId(resultSet.getInt("session_id"));
-        session.setStart(resultSet.getTime("start_time").toLocalTime()
+        YogaSession yogaSession = new YogaSession();
+        yogaSession.setId(resultSet.getInt("yoga_session_id"));
+        yogaSession.setStart(resultSet.getTime("start_time").toLocalTime()
                 .atDate(resultSet.getDate("start_time").toLocalDate()));
-        session.setEnd(resultSet.getTime("end_time").toLocalTime()
+        yogaSession.setEnd(resultSet.getTime("end_time").toLocalTime()
                 .atDate(resultSet.getDate("end_time").toLocalDate()));
-        session.setCapacity(resultSet.getInt("capacity"));
+        yogaSession.setCapacity(resultSet.getInt("capacity"));
 
         AppUserMapper appUserMapper = new AppUserMapper();
         AppUser instructor = appUserMapper.mapRow(resultSet,rowNum);
@@ -27,10 +27,10 @@ public class SessionMapper implements RowMapper<Session> {
         LocationMapper locationMapper = new LocationMapper();
         Location location = locationMapper.mapRow(resultSet,rowNum);
 
-        session.setInstructor(instructor);
-        session.setLocation(location);
+        yogaSession.setInstructor(instructor);
+        yogaSession.setLocation(location);
 
-        return session;
+        return yogaSession;
     }
 
 }

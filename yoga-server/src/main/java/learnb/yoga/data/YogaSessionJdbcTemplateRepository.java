@@ -1,75 +1,74 @@
 package learnb.yoga.data;
 
-import learnb.yoga.data.mappers.SessionMapper;
+import learnb.yoga.data.mappers.YogaSessionMapper;
 import learnb.yoga.models.AppUser;
 import learnb.yoga.models.Location;
-import learnb.yoga.models.Session;
+import learnb.yoga.models.YogaSession;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
 
-import java.sql.Date;
 import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.List;
 
 @Repository
-public class SessionJdbcTemplateRepository implements SessionRepository {
+public class YogaSessionJdbcTemplateRepository implements YogaSessionRepository {
 
     private final JdbcTemplate jdbcTemplate;
 
-    public SessionJdbcTemplateRepository(JdbcTemplate jdbcTemplate) {
+    public YogaSessionJdbcTemplateRepository(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
 
     private String SELECT = """
-            select s.session_id, s.start_time, s.end_time, s.capacity,
+            select s.yoga_session_id, s.start_time, s.end_time, s.capacity,
                 a.app_user_id, a.first_name, a.last_name, a.dob, a.phone_number, 
                 a.email_address, a.user_type, a.password_hash, l.location_id, l.name, l.size, 
                 l.description
                 from
-                session s
+                yoga_session s
                 inner join app_user a on s.instructor_id = a.app_user_id
                 inner join location l on s.location_id = l.location_id
 """;
 
 @Override
-public Session findById(int id) {
+public YogaSession findById(int id) {
 
         final String sql = SELECT + """
-                where session_id = ?
+                where yoga_session_id = ?
                 """;
 
-        return jdbcTemplate.query(sql, new SessionMapper(), id).stream().findFirst().orElse(null);
+        return jdbcTemplate.query(sql, new YogaSessionMapper(), id).stream().findFirst().orElse(null);
 
 }
 
 @Override
-public int getEnrollmentCount(int sessionId){
+public int getEnrollmentCount(int yogaSessionId){
 
     final String sql = """
             select count(reservation_id)
             from reservation 
-            where session_id = ?
+            where yoga_session_id = ?
             """;
 
-    return jdbcTemplate.queryForObject(sql, Integer.class, sessionId);
+    return jdbcTemplate.queryForObject(sql, Integer.class, yogaSessionId);
 }
 
 @Override
-public List<Session> findByDate(LocalDate date) {
+public List<YogaSession> findByDate(LocalDate date) {
 
     final String sql = SELECT + """
                 where DATE(start_time) = ?
                 """;
 
-    return jdbcTemplate.query(sql,new SessionMapper(),date);
+    return jdbcTemplate.query(sql,new YogaSessionMapper(),date);
 
 }
 
 @Override
-public List<Session> findByInstructor(AppUser instructor){
+public List<YogaSession> findByInstructor(AppUser instructor){
 
     final String sql = SELECT + """
             
@@ -77,55 +76,55 @@ public List<Session> findByInstructor(AppUser instructor){
             
             """;
 
-    return jdbcTemplate.query(sql,new SessionMapper(), instructor.getAppUserId());
+    return jdbcTemplate.query(sql,new YogaSessionMapper(), instructor.getAppUserId());
 
 }
 
 @Override
-public List<Session> findByLocation(Location location){
+public List<YogaSession> findByLocation(Location location){
 
     final String sql = SELECT + """
             
             where l.location_id = ?
             """;
 
-    return jdbcTemplate.query(sql, new SessionMapper(), location.getId());
+    return jdbcTemplate.query(sql, new YogaSessionMapper(), location.getId());
 
 }
 
 @Override
-public Session add(Session session){
+public YogaSession add(YogaSession yogaSession){
 
     // SimpleJdbcInsert
 
     SimpleJdbcInsert insert = new SimpleJdbcInsert(jdbcTemplate)
-            .withTableName("`session`")
-            .usingGeneratedKeyColumns("session_id");
+            .withTableName("yoga_session")
+            .usingGeneratedKeyColumns("yoga_session_id");
 
     HashMap<String,Object> args = new HashMap<>();
-    args.put("start_time", Timestamp.valueOf(session.getStart()));
-    args.put("end_time", Timestamp.valueOf(session.getEnd()));
-    args.put("capacity",session.getCapacity());
-    args.put("instructor_id",session.getInstructor().getAppUserId());
-    args.put("location_id",session.getLocation().getId());
+    args.put("start_time", Timestamp.valueOf(yogaSession.getStart()));
+    args.put("end_time", Timestamp.valueOf(yogaSession.getEnd()));
+    args.put("capacity",yogaSession.getCapacity());
+    args.put("instructor_id",yogaSession.getInstructor().getAppUserId());
+    args.put("location_id",yogaSession.getLocation().getId());
 
     int id = insert.executeAndReturnKey(args).intValue();
-    session.setId(id);
+    yogaSession.setId(id);
 
-    return session;
+    return yogaSession;
 }
 
 @Override
-public boolean update(Session session){
+public boolean update(YogaSession session){
 
     final String sql = """
-            update session set
+            update yoga_session set
             start_time = ?,
             end_time = ?,
             capacity = ?,
             instructor_id = ?,
             location_id = ?
-            where session_id = ?
+            where yoga_session_id = ?
             """;
 
     return jdbcTemplate.update(sql,
@@ -142,7 +141,7 @@ public boolean update(Session session){
 public boolean deleteById(int id){
 
     final String sql = """
-            delete from session where session_id = ?
+            delete from yoga_session where yoga_session_id = ?
             """;
 
     return jdbcTemplate.update(sql,id) > 0;

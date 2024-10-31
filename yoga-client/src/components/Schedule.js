@@ -8,6 +8,7 @@ import { useNavigate } from 'react-router-dom';
 
 export default function Schedule() {
   const [selectedDate, setSelectedDate] = useState(new Date());
+  const [errors, setErrors] = useState([]);
 
   const { appUser } = useContext(AuthContext);
   const navigate = useNavigate();
@@ -28,6 +29,7 @@ export default function Schedule() {
 
   return (
     <div>
+      <ValidationSummary errors = {errors} />
       <h1>Class Sign-up</h1>
       {/* <DateSelector selectedDate={selectedDate} handleDateChange={handleDateChange} />
       <ClassList selectedDate={selectedDate} /> */}

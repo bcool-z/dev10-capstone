@@ -1,7 +1,7 @@
 package learnb.yoga.controllers;
 
-import learnb.yoga.domain.SessionService;
-import learnb.yoga.models.Session;
+import learnb.yoga.domain.YogaSessionService;
+import learnb.yoga.models.YogaSession;
 import learnb.yoga.validation.Result;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
@@ -15,11 +15,11 @@ import static learnb.yoga.controllers.ControllerHelper.getStatus;
 
 @RestController
 @RequestMapping("/session")
-public class SessionController {
+public class YogaSessionController {
 
-   private final SessionService service;
+   private final YogaSessionService service;
 
-    public SessionController(SessionService service) {
+    public YogaSessionController(YogaSessionService service) {
         this.service = service;
     }
 
@@ -27,40 +27,40 @@ public class SessionController {
     public int getEnrolled(@PathVariable int index) {return service.getEnrolled(index);}
 
     @GetMapping("/{index}")
-    public ResponseEntity<Session> findById(@PathVariable int index) {
-        Session session = service.findById(index);
-        if (session == null) {
+    public ResponseEntity<YogaSession> findById(@PathVariable int index) {
+        YogaSession yogaSession = service.findById(index);
+        if (yogaSession == null) {
             return ResponseEntity.notFound().build();
         }
-        return ResponseEntity.ok(session);
+        return ResponseEntity.ok(yogaSession);
     }
 
     @GetMapping("/date/{date}")
-public List<Session> findByDate(@PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date){
+public List<YogaSession> findByDate(@PathVariable @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date){
 
         return service.findByDate(date);
     }
 
     @PostMapping
-    public ResponseEntity<Session> add(@RequestBody Session session){
+    public ResponseEntity<YogaSession> add(@RequestBody YogaSession yogaSession){
 
-        Result<Session> result = service.add(session);
+        Result<YogaSession> result = service.add(yogaSession);
         return new ResponseEntity<>(result.getPayload(), getStatus(result, HttpStatus.CREATED));
     }
 
     @PutMapping("/{index}")
-    public ResponseEntity<Session> update(@PathVariable int index, @RequestBody Session session){
+    public ResponseEntity<YogaSession> update(@PathVariable int index, @RequestBody YogaSession yogaSession){
 
-        if(session != null && session.getId() != index){
+        if(yogaSession != null && yogaSession.getId() != index){
             return new ResponseEntity<>(HttpStatus.CONFLICT);
         }
-        Result<Session> result = service.update(session);
+        Result<YogaSession> result = service.update(yogaSession);
         return new ResponseEntity<>(getStatus(result, HttpStatus.NO_CONTENT));
     }
 
     @DeleteMapping("/{index}")
     public ResponseEntity<Void> delete(@PathVariable int index){
-        Result<Session> result = service.deleteById(index);
+        Result<YogaSession> result = service.deleteById(index);
         return  new ResponseEntity<>(getStatus(result,HttpStatus.NO_CONTENT));
 
     }

@@ -31,8 +31,8 @@ public class ReservationMapper implements RowMapper<Reservation> {
 //        session.setInstructor(instructor);
 //        session.setLocation(location);
 
-        SessionMapper sessionMapper = new SessionMapper();
-        Session session = sessionMapper.mapRow(resultSet,rowNum);
+        YogaSessionMapper yogaSessionMapper = new YogaSessionMapper();
+        YogaSession session = yogaSessionMapper.mapRow(resultSet,rowNum);
 
 
         AppUser student = new AppUser();
@@ -45,7 +45,7 @@ public class ReservationMapper implements RowMapper<Reservation> {
         student.setUserType(UserType.valueOf(resultSet.getString("student_user_type")));
         student.setPassword("0");
 
-        reservation.setSession(session);
+        reservation.setYogaSession(session);
         reservation.setStudent(student);
 
         return reservation;

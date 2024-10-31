@@ -3,7 +3,7 @@ package learnb.yoga.models;
 import java.time.LocalDateTime;
 import java.util.Objects;
 
-public class Session {
+public class YogaSession {
 
     private int id;
 
@@ -17,9 +17,9 @@ public class Session {
 
     private Location location;
 
-    public Session(){}
+    public YogaSession(){}
 
-    public Session(int id, LocalDateTime start, LocalDateTime end, int capacity, AppUser instructor, Location location) {
+    public YogaSession(int id, LocalDateTime start, LocalDateTime end, int capacity, AppUser instructor, Location location) {
         this.id = id;
         this.start = start;
         this.end = end;
@@ -80,7 +80,7 @@ public class Session {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Session session = (Session) o;
+        YogaSession session = (YogaSession) o;
         return id == session.id && capacity == session.capacity && Objects.equals(start, session.start) && Objects.equals(end, session.end) && Objects.equals(instructor, session.instructor) && Objects.equals(location, session.location);
     }
 
