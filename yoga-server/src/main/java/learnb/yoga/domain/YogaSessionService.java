@@ -20,11 +20,12 @@ private final YogaSessionRepository repository;
     }
 
     public int getEnrolled(int sessionId){return repository.getEnrollmentCount(sessionId);}
-public YogaSession findById(int id){
+
+    public YogaSession findById(int id){
         return repository.findById(id);
 }
 
-public List<YogaSession> findByDate(LocalDate date){
+    public List<YogaSession> findByDate(LocalDate date){
 
         return repository.findByDate(date);
 }
@@ -80,38 +81,38 @@ public Result<YogaSession> deleteById(int id) {
         return result;
 }
 
-private Result<YogaSession> validate(YogaSession session){
+private Result<YogaSession> validate(YogaSession yogaSession){
         Result<YogaSession> result = new Result<>();
 
-        if(session == null){
+        if(yogaSession == null){
             result.addMessage(ActionStatus.INVALID, "Session cannot be null.");
             return result;
         }
-        if (session.getInstructor() == null){
+        if (yogaSession.getInstructor() == null){
             result.addMessage(ActionStatus.INVALID, "Instructor cannot be null.");
             return result;
         }
-        if(session.getLocation() == null){
+        if(yogaSession.getLocation() == null){
 
             result.addMessage(ActionStatus.INVALID, "Location cannot be null.");
             return result;
 
         }
-        if(session.getCapacity() <= 0){
+        if(yogaSession.getCapacity() <= 0){
             result.addMessage(ActionStatus.INVALID, "Capacity must be positive integer");
             return result;
         }
-        if(session.getStart().isBefore(LocalDateTime.now())){
+        if(yogaSession.getStart().isBefore(LocalDateTime.now())){
             result.addMessage(ActionStatus.INVALID, "Session start time must be future date and time");
             return result;
         }
-        if(session.getEnd().isBefore(session.getStart())){
+        if(yogaSession.getEnd().isBefore(yogaSession.getStart())){
             result.addMessage(ActionStatus.INVALID, "Session end time must be set for after start time");
             return result;
         }
 
-            List<YogaSession> sessions1 = repository.findByDate(session.getStart().toLocalDate());
-            List<YogaSession> sessions2 = repository.findByDate(session.getEnd().toLocalDate());
+            List<YogaSession> sessions1 = repository.findByDate(yogaSession.getStart().toLocalDate());
+            List<YogaSession> sessions2 = repository.findByDate(yogaSession.getEnd().toLocalDate());
 
             List<YogaSession> sessions = Stream.concat(sessions1.stream(), sessions2.stream())
                     .distinct()
@@ -119,15 +120,15 @@ private Result<YogaSession> validate(YogaSession session){
 
 
         for(YogaSession s : sessions){
-            boolean overlaps = s.getStart().isBefore(session.getEnd())
-                    && s.getEnd().isAfter(session.getStart());
+            boolean overlaps = s.getStart().isBefore(yogaSession.getEnd())
+                    && s.getEnd().isAfter(yogaSession.getStart());
 
-            if(s.getId() != session.getId()){
-                if(s.getLocation().getId() == session.getLocation().getId()){
+            if((s.getId() != yogaSession.getId()) && overlaps){
+                if(s.getLocation().getId() == yogaSession.getLocation().getId()){
                     result.addMessage(ActionStatus.INVALID, "session location overlap");
                     return result;
                 }
-                if(s.getInstructor().getAppUserId() == session.getInstructor().getAppUserId()){
+                if(s.getInstructor().getAppUserId() == yogaSession.getInstructor().getAppUserId()){
                     result.addMessage(ActionStatus.INVALID, "session instructor overlap");
                     return result;
                 }

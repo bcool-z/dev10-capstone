@@ -1,7 +1,7 @@
 
 import { useEffect, useState, useContext } from "react";
 import Class from "./Class";
-import { fetchSessionsByDate } from "../services/sessionService";
+import { getEnrollmentCount, fetchSessionsByDate } from "../services/sessionService";
 
 import { formatDate } from "../services/dateUtils"; 
 
@@ -12,10 +12,21 @@ function ClassList({ selectedDate }) {
 
 
     useEffect(() => {
+      const fetchData = async () => {
+      const sessions = await fetchSessionsByDate(formatDate(selectedDate));
 
-      
-  
-      setClasses(fetchSessionsByDate(selectedDate));
+    const sessionsWithEnollment = await Promise.all(
+
+      (sessions || []).map(async (session) => {
+
+        const enrollmentCount = await getEnrollmentCount(session.id);
+          return {...session, enrolled: (enrollmentCount||0)};
+      })
+
+    )
+
+      setClasses(sessionsWithEnollment);}
+        fetchData();
     }, [selectedDate]);
 
   

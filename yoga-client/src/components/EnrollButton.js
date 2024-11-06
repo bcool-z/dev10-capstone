@@ -8,14 +8,14 @@ import ValidationSummary from "./ValidationSummary";
 
 function EnrollButton({cls,onError}) {
 
-  const { user } = useContext(AuthContext);
+  const { appUser } = useContext(AuthContext);
   const [errors, setErrors] = useState([]);
   const navigate = useNavigate();
 
 const [reservation, setReservation] = useState( {
   id: 0,
   session: cls,
-  student: user
+  student: appUser
 })
 
   const handleEnrollClick = (evt) => {
@@ -37,7 +37,7 @@ const [reservation, setReservation] = useState( {
     });
   };
 
-  return user ? (
+  return appUser ? (
     
    <button onClick={handleEnrollClick}>Enroll</button>)
     : null;

@@ -3,50 +3,38 @@ import EnrollButton from "./EnrollButton";
 import AuthContext from "../contexts/AuthContext";
 import ValidationSummary from "./ValidationSummary";
 import { formattedTime } from "../services/dateUtils";
+import { getEnrollmentCount } from "../services/sessionService";
+import { useNavigate } from "react-router-dom";
 
 export default function Class({cls}){
 
-  const { user } = useContext(AuthContext);
+const { appUser } = useContext(AuthContext);
+const navigate = useNavigate(); 
 
 const [enrolled, setEnrolled] = useState(0);
 
-const [errors, setError] = useState([]);
+const [errors, setError] = useState(0);
 
+const handleEditClick =(id)=>{
+  navigate('/ClassForm', {state: {sessionId: id}});
+}
 const handleErrors = (errors) => {
 
 setError(errors);
 
 }
 
-useEffect(() => {
-    // Define a function to fetch classes based on the selected date
-    const fetchEnrolled = async () => {
-      try {
-        const response = await fetch(`http://localhost:8080/session/count/${cls.id}`);
-        if (response.ok) {
-          const data = await response.json();
-          setEnrolled(data);
-        } else {
-          console.error('Error fetching classes');
-        }
-      } catch (error) {
-        console.error('Error fetching classes:', error);
-      }
-    };
-
-    // Call the fetchClasses function whenever selectedDate changes
-    fetchEnrolled();
-  }, []);
-
-
-
-
+console.log("appUser:", appUser);
+console.log("Instructor:", cls.instructor);
 
 return (
 
 <li>
   <ValidationSummary />
-    {formattedTime(cls.start)} - {formattedTime(cls.end)}, {cls.instructor.firstName} {cls.instructor.lastName}, {cls.location.name} {enrolled}/{cls.capacity} <EnrollButton cls={cls} onError={handleErrors} />
+<span>
+    {formattedTime(cls.start)} - {formattedTime(cls.end)}, {cls.instructor.firstName} {cls.instructor.lastName}, {cls.location.name} {cls.enrollmentCount}/{cls.capacity}
+    </span>
+    {appUser && cls.instructor.appUserId===appUser.id ? (<button onClick={()=>handleEditClick(cls.id)}>edit</button>) : (<EnrollButton cls={cls} onError={handleErrors}/>)}
 </li>
 
 )

@@ -2,12 +2,26 @@ import React, { useState, useEffect } from 'react';
 import { Modal, Button, Form } from 'react-bootstrap';
 import { fetchLocations } from '../services/locationService'; // Assumes a function to fetch locations
 import UserSearch from './UserSearch';
-import { saveSession } from '../services/sessionService';
-import { useNavigate } from 'react-router-dom';
+import { getSessionById, saveSession } from '../services/sessionService';
+import { useNavigate,useLocation } from 'react-router-dom';
 import ValidationSummary from './ValidationSummary';
 
-export default function ClassForm({ initialSession, onSave }) {
-    const [session, setSession] = useState(initialSession || { id: 0, start: '', end: '', capacity: '', instructor: null, location: null });
+export default function ClassForm() {
+    const location = useLocation();
+    const sessionId = location.state?.sessionId;
+
+    useEffect(()=>{
+       if(sessionId){
+            getSessionById(sessionId).then((sessionData)=>{
+                setSession(sessionData);
+            }
+            )
+
+       }
+       else { setSession({...session,id:0,start:'',end:'',capacity:'',instructorId:null,locationId:null})}
+    },[sessionId])
+
+    const [session, setSession] = useState();
     const [locations, setLocations] = useState([]);
     const [showModal, setShowModal] = useState(false);
     const [errors,setErrors] = useState([]);
@@ -32,17 +46,19 @@ export default function ClassForm({ initialSession, onSave }) {
 
     const handleSave = async () => {
        const result = await saveSession(session);
-       if(result?.messages && result.messages.length>0){
-            setErrors(result.messages);
+       if(result?.errors && result.errors.length>0){
+            setErrors(result.errors);
        }
        else{
-        navigate("/schedule");}
+        navigate("/schedule", {state: {successMessage:"Class Created"}});}
     }
 
 
     return (
         <div>
             <ValidationSummary errors = {errors}/>
+            {session ? (
+                <div>
             <h2>{session.id === 0 ? 'New Class' : 'Edit Class'}</h2>
             <Form>
                 <Form.Group>
@@ -98,7 +114,10 @@ export default function ClassForm({ initialSession, onSave }) {
                 </Form.Group>
                     <br/>
                 <Button variant="primary" onClick={handleSave}>Save</Button>
-            </Form>
+            </Form> 
+            </div>):(
+                <h2>Loading...</h2>
+            )}
 
 
             {/* Instructor Selection Modal */}

@@ -44,7 +44,7 @@ function NavBar() {
         {appUser && appUser.userType=== 'INSTRUCTOR' && (
           <li className="nav-item">
               <NavLink className="nav-link" to="/manage">
-                Manage Instructors
+                Instructor Dashboard
               </NavLink>
           </li>
         )}

@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { Button } from 'react-bootstrap';
 import { searchUsers } from '../services/userService';
 
-export default function UserSearch({ show, handleClose, onUserSelect }) {
+export default function UserSearch({ onUserSelect }) {
   const [users, setUsers] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [currentPage, setCurrentPage] = useState(1);

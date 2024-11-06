@@ -1,5 +1,6 @@
 package learnb.yoga.controllers;
 
+import learnb.yoga.domain.ActionStatus;
 import learnb.yoga.domain.YogaSessionService;
 import learnb.yoga.models.YogaSession;
 import learnb.yoga.validation.Result;
@@ -42,11 +43,12 @@ public List<YogaSession> findByDate(@PathVariable @DateTimeFormat(pattern = "yyy
     }
 
     @PostMapping
-    public ResponseEntity<YogaSession> add(@RequestBody YogaSession yogaSession){
+    public ResponseEntity<Result> add(@RequestBody YogaSession yogaSession){
 
         Result<YogaSession> result = service.add(yogaSession);
-        return new ResponseEntity<>(result.getPayload(), getStatus(result, HttpStatus.CREATED));
-    }
+        HttpStatus status = result.isSuccess() ? HttpStatus.CREATED : HttpStatus.CONFLICT;
+        return new ResponseEntity<>(result, status);
+        }
 
     @PutMapping("/{index}")
     public ResponseEntity<YogaSession> update(@PathVariable int index, @RequestBody YogaSession yogaSession){
